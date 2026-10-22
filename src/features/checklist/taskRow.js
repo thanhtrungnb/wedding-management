@@ -20,7 +20,7 @@ export function taskRow(t, ctx) {
     ? `<button type="button" class="twist ${open ? 'is-open' : ''}" data-toggle="${esc(t.id)}" aria-expanded="${open}" aria-controls="kids-${esc(t.id)}" aria-label="${open ? 'Thu gọn' : 'Mở'} việc con của “${esc(t.title)}”">${svg('chev')}</button>`
     : `<label class="hit"><input class="check" type="checkbox" data-id="${esc(t.id)}" ${t.done ? 'checked' : ''} aria-label="Hoàn thành: ${esc(t.title)}"></label>`;
   const count = kids ? `<span class="count" title="Việc con đã xong"><span class="sr">Đã xong </span>${dn}/${all.length}<span class="sr"> việc con</span></span>` : '';
-  const meta = [kids ? count : '', dueTag(t, today), `<span>${esc(ownerLabel(t.owner))}</span>`,
+  const meta = [kids ? count : '', t.done ? '' : dueTag(t, today), `<span>${esc(ownerLabel(t.owner))}</span>`,
     ctx.showCat && cat ? `<span>· ${esc(cat.name)}</span>` : '', par ? `<span>· thuộc “${esc(par.title)}”</span>` : '',
     ...(ctx.showTags ? (t.tags || []).map(g => `<span class="tag tag--plain">${esc(g)}</span>`) : [])].join('');
   return `<li class="task ${t.done ? 'is-done' : ''} ${kids ? 'is-parent' : ''}">${lead}

@@ -1,4 +1,6 @@
 *,*::before,*::after{box-sizing:border-box}
+/* `.btn` đặt display riêng nên phải ép lại `hidden`, nếu không nút "Xóa bộ lọc" hiện cả khi chưa lọc. */
+[hidden]{display:none!important}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);font:400 var(--fs-md)/var(--lh-body) var(--font-sans);-webkit-font-smoothing:antialiased}
 h1,h2,h3,p{margin:0}
@@ -63,7 +65,7 @@ button{font:inherit;color:inherit;cursor:pointer}
 .tasks{list-style:none;margin:0;padding:0}
 .task{display:grid;grid-template-columns:24px minmax(0,1fr) auto;gap:var(--s-4);padding:var(--s-4) 0;border-bottom:var(--bw) solid var(--line);align-items:start}
 .task__t{font-weight:500}
-.task.is-done .task__t{color:var(--ink-3);text-decoration:line-through;text-decoration-color:var(--line-strong)}
+.task.is-done .task__t{color:var(--forest)}
 .task__m{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-top:var(--s-2);font-size:var(--fs-sm);color:var(--ink-3);align-items:center}
 .task__sub{font-size:var(--fs-sm);color:var(--ink-3);white-space:nowrap}
 .money{font:400 2.6rem/1 var(--font-serif);letter-spacing:-.01em;font-variant-numeric:tabular-nums}
@@ -97,7 +99,7 @@ button{font:inherit;color:inherit;cursor:pointer}
   .progress{grid-template-columns:1fr;gap:var(--s-3)}
   .task{gap:var(--s-3)}
   .task__sub{grid-column:2}
-  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;inset:auto 0 0 0;background:var(--surface);border-top:var(--bw) solid var(--line-strong);padding-bottom:env(safe-area-inset-bottom);z-index:30}
+  .tabbar{display:grid;grid-template-columns:repeat(3,1fr);position:fixed;inset:auto 0 0 0;background:var(--surface);border-top:var(--bw) solid var(--line-strong);padding-bottom:env(safe-area-inset-bottom);z-index:30}
   .tabbar .tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:56px;background:none;border:0;font-size:var(--fs-xs);color:var(--ink-3)}
   .tabbar .tab[aria-current=page]{color:var(--accent);font-weight:600}
   .tabbar .tab[aria-disabled=true]{opacity:.6}

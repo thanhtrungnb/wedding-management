@@ -50,7 +50,7 @@ function view() {
     <li><span class="sw" style="background:var(--brass)"></span>Đã chốt, còn phải trả<b>${formatVND(b.outstanding)}</b></li>
     <li><span class="sw" style="background:var(--line-strong)"></span>Dự kiến, chưa chốt<b>${formatVND(b.unbooked)}</b></li>
     <li><span></span>Nguồn thu dự kiến<b>${formatVND(b.income)}</b></li></ul>
-    <p class="fine">Số liệu ước tính tách riêng với chi phí thực tế. Chi tiết sẽ có ở trang Ngân sách.</p></section></div>`;
+    <p class="fine">Số liệu ước tính tách riêng với chi phí thực tế. Trang Ngân sách chi tiết sắp có.</p></section></div>`;
 }
 
 

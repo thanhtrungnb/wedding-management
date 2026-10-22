@@ -1,4 +1,4 @@
-/* Một <dialog> dùng chung: bottom sheet trên điện thoại, hộp thoại bên phải trên máy tính. */
+/* Một <dialog> dùng chung: popup nằm giữa màn hình cho thêm/sửa/xem chi tiết. */
 let dlg, ctrl, opener;
 export function closeSheet() { dlg?.open && dlg.close(); }
 export function openSheet(html, { label = '', onMount } = {}) {

@@ -11,5 +11,6 @@ const item = (r, active, cls, text) => r.soon
   : `<a class="${cls}" href="#${r.path}" ${r.path === active ? 'aria-current="page"' : ''}>${svg(r.icon)}<span>${text}</span></a>`;
 export function renderNav(active) {
   document.getElementById('nav').innerHTML = ROUTES.map(r => item(r, active, 'nav__item', r.label)).join('');
-  document.getElementById('tabbar').innerHTML = ROUTES.map(r => item(r, active, 'tab', r.short)).join('');
+  /* Tabbar mobile chỉ gồm các mục dùng được thật — mục "Sắp có" chiếm chỗ mà không dẫn đi đâu. */
+  document.getElementById('tabbar').innerHTML = ROUTES.filter(r => !r.soon).map(r => item(r, active, 'tab', r.short)).join('');
 }
