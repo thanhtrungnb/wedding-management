@@ -1,0 +1,97 @@
+src/models/schema.js
+  s_70393db1d0e07e::t_a9d9a5fa28c0de 15
+  s_70393db1d0e07e::t_b965beeabc5ad4 16
+  s_70393db1d0e07e::t_4ad7eb3dbee686 4
+  s_70393db1d0e07e::t_487d2d6fa0f713 30-33,38
+  s_70393db1d0e07e::t_9b5834a4aa4be1 34
+  s_70393db1d0e07e::t_2cca145c08e211 29
+  s_70393db1d0e07e::t_cd11b63e18d4ca 64
+  s_70393db1d0e07e::t_195c279a5bbab5 35-37
+src/features/schedule/scheduleDialog.js
+  s_70393db1d0e07e::t_6f3437b908154a 1-37
+src/data/sample_schedule.json
+  s_70393db1d0e07e::t_0aa1e8af9ff984 1-10
+src/core/nav.js
+  s_70393db1d0e07e::t_88ef6f7e5b91aa 8
+src/services/scheduleService.js
+  s_70393db1d0e07e::t_2858c2493948fe 21-33
+  s_70393db1d0e07e::t_d8bd837698dfdc 1-2,4-11,13-20,34-39
+  s_70393db1d0e07e::t_778e9704cb2597 3
+  s_70393db1d0e07e::t_91b540c896ac9c 12
+assets/css/schedule.css
+  s_70393db1d0e07e::t_54d890598da616 62
+  s_70393db1d0e07e::t_76fb2793ab71e3 11-12
+  s_70393db1d0e07e::t_f804febf9de992 23-24
+  s_70393db1d0e07e::t_9a66ef8ddcee47 14-15
+  s_70393db1d0e07e::t_8d1a2f19ed04f7 1,3-4,7,9,13,17,25-26,32-33,40,42-43,50-52,59-61,63-64
+  s_70393db1d0e07e::t_93eb330ade4945 10
+  s_70393db1d0e07e::t_dbc2dc9bdad6a6 44-49,53
+  s_70393db1d0e07e::t_ab29138fd6a7c8 66
+  s_70393db1d0e07e::t_600385c1ffd8f1 16
+  s_70393db1d0e07e::t_00a47ddfe7dd96 29-30
+  s_70393db1d0e07e::t_e35085ce0b6607 18-22
+  s_70393db1d0e07e::t_8eee9c856283f0 65
+  s_70393db1d0e07e::t_d0f42f19cb496b 68-69
+  s_70393db1d0e07e::t_01e36bd266e8c0 27
+  s_70393db1d0e07e::t_d55a4e82b5509a 31
+  s_70393db1d0e07e::t_736dd1833bd6f6 2,5-6,8,34-39,41,54-58,70
+  s_70393db1d0e07e::t_db835bc8becbdf 28
+  s_70393db1d0e07e::t_3db142879a0e6b 67
+src/core/router.js
+  s_70393db1d0e07e::t_e6678adc9a0161 7
+src/features/dashboard/dashboardView.js
+  s_70393db1d0e07e::t_42bed97ee564c5 65
+  s_70393db1d0e07e::t_41c7e824b67078 35
+  s_70393db1d0e07e::t_f3e3513d46aa34 32
+  s_70393db1d0e07e::t_6fb45b255baf60 5
+  s_70393db1d0e07e::t_556aa7b8773a7d 24
+src/ui/icons.js
+  s_70393db1d0e07e::t_539217896ee6f7 7
+src/features/schedule/scheduleView.js
+  s_70393db1d0e07e::t_41d0bb64377dff 1-2,5-6,8,11-13,16-20,24,35-42,45-50,67-73
+  s_70393db1d0e07e::t_19511cae4edc8a 28
+  s_70393db1d0e07e::t_f3cdd14a1d3742 29
+  s_70393db1d0e07e::t_f0171fdf685955 31
+  s_70393db1d0e07e::t_8a0c67b5ffc313 14-15
+  s_70393db1d0e07e::t_00eedb7cd4ae43 3-4
+  s_70393db1d0e07e::t_fc4deb1d6af6d2 23
+  s_70393db1d0e07e::t_01496136bbb4b3 7
+  s_70393db1d0e07e::t_5f46c7fdafc196 21
+  s_70393db1d0e07e::t_6aa914dfe186f1 34
+  s_70393db1d0e07e::t_1724fcb3d4657d 55
+  s_70393db1d0e07e::t_c2846f6a4f0fb5 43-44
+  s_70393db1d0e07e::t_7c2569cdfe7bdc 51-54,56-57
+  s_70393db1d0e07e::t_b9f3c79e7366d7 9-10
+  s_70393db1d0e07e::t_e92b6676440101 22
+  s_70393db1d0e07e::t_dd4a4f26af0873 32
+  s_70393db1d0e07e::t_b8804487f50c7b 58-66
+  s_70393db1d0e07e::t_8a298db5d729de 26
+  s_70393db1d0e07e::t_7188f3cfa1460b 25,27,30,33
+assets/css/app.css
+  s_70393db1d0e07e::t_c1b25b42ec9664 128
+index.html
+  s_70393db1d0e07e::t_eb5e45ed793468 18
+src/config/schedule.js
+  s_70393db1d0e07e::t_c08ad08f9407d4 1
+  s_70393db1d0e07e::t_11cd1db25343fc 2-5
+src/repositories/appRepository.js
+  s_70393db1d0e07e::t_60bec1b5be247d 44-48,50
+  s_70393db1d0e07e::t_ba2b175a575072 59
+  s_70393db1d0e07e::t_9b87f1900c4c7e 16-18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "951b0b96882cea67bf60c25ca659a20a6786f6b6",
+  "prompts": {},
+  "sessions": {
+    "s_70393db1d0e07e": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "6a6713c2-26a0-4b7c-9d9f-1ab7ded1f2b7",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "nttrungmisa <nttrung.misa@gmail.com>"
+    }
+  }
+}
