@@ -1,0 +1,29 @@
+src/storage/remoteStore.js
+  s_54ad6368bb8151::t_5831ee056bd529 1-36
+google-apps-script/Code.gs
+  s_54ad6368bb8151::t_9bf64e4ebe15bd 1-53
+src/features/settings/settingsView.js
+  s_54ad6368bb8151::t_93674b1c904367 1,5,9,42,45-48,52-59,63-65,74,79-89,92
+  s_54ad6368bb8151::t_602f99bfbc2c47 6,10-41,49-51,60-62,78
+assets/css/settings.css
+  s_54ad6368bb8151::t_6a4b890ca039d6 9-15,17
+  s_54ad6368bb8151::t_6e47f9035ac0a5 1-8,16
+index.html
+  s_54ad6368bb8151::t_361d538057fe9c 16
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "92b9cd86a10ec4c26d2c62f8f9bd3303bbcd0a95",
+  "prompts": {},
+  "sessions": {
+    "s_54ad6368bb8151": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "fbb34d7d-04a5-475f-812a-7eefdea240a8",
+        "model": "deepseek-v4-pro"
+      },
+      "human_author": "nttrungmisa <nttrung.misa@gmail.com>"
+    }
+  }
+}
