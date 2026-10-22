@@ -1,5 +1,6 @@
 /* Logic thuần (không DOM) cho bảng tổng quan. */
 import { daysBetween } from '../utils/format.js';
+import { itemActual, itemDebt, itemDebtDue } from './budgetService.js';
 export const childrenOf = (tasks, id) => tasks.filter(t => t.parentId === id);
 /** Tối đa 2 cấp: chỉ việc cấp 1 mới được làm cha. */
 export const canHaveParent = (tasks, parentId) => { const p = tasks.find(t => t.id === parentId); return !!p && p.parentId === null; };
@@ -21,9 +22,26 @@ export function nextActions(tasks, today, limit = 5) {
 export const overdueCount = (tasks, today) => progressUnits(tasks).filter(t => !t.done && (daysBetween(t.due, today) ?? 0) < 0).length;
 export const weekCount = (tasks, today) => progressUnits(tasks).filter(t => { const d = daysBetween(t.due, today); return !t.done && d !== null && d >= 0 && d <= 7; }).length;
 export const parentOf = (tasks, t) => tasks.find(x => x.id === t.parentId);
-/** Dự kiến và thực tế tách riêng. Còn phải trả = đã chốt − đã trả. */
+/** Dự tính từ khoản chi; thực chi/thu từ ghi chép; nợ = ghi chép chi trả sau. Độ lệch = thực chi − dự chi. */
 export function budgetSummary(b) {
-  const sum = (a, k) => a.reduce((s, x) => s + x[k], 0);
-  const planned = sum(b.items,'planned'), committed = sum(b.items,'committed'), paid = sum(b.items,'paid'), income = sum(b.income,'amount');
-  return { planned, committed, paid, outstanding: committed - paid, unbooked: Math.max(0, planned - committed), overCommit: Math.max(0, committed - planned), income, balance: income - planned };
+  const items = b.items ?? [], recs = b.records ?? [];
+  const sum = (a, f) => a.reduce((s, x) => s + f(x), 0);
+  const planned = sum(items.filter(x => x.type !== 'thu'), x => x.planned);
+  const chiR = recs.filter(r => r.type !== 'thu'), thuR = recs.filter(r => r.type === 'thu');
+  const chi = sum(chiR, r => r.amount), thu = sum(thuR, r => r.amount);
+  const paid = sum(chiR.filter(r => !r.deferred), r => r.amount);
+  const debt = sum(chiR.filter(r => r.deferred), r => r.amount);
+  return { planned, chi, thu, paid, debt, variance: chi - planned, balance: thu - chi };
+}
+/** Tổng dự tính / thực tế / độ lệch theo từng nhóm — master row của bảng ngân sách. Nhóm không có khoản không xuất hiện. */
+export function budgetByCategory(b, cats) {
+  return cats.map(c => {
+    const items = (b.items ?? []).filter(x => x.categoryId === c.id);
+    if (!items.length) return null;
+    const planned = items.reduce((s, x) => s + x.planned, 0);
+    const actual = items.reduce((s, x) => s + itemActual(b, x), 0);
+    const debt = items.reduce((s, x) => s + itemDebt(b, x), 0);
+    const dues = items.map(x => itemDebtDue(b, x)).filter(Boolean).sort();
+    return { ...c, planned, actual, variance: actual - planned, debt, debtDue: dues[0] ?? null };
+  }).filter(Boolean);
 }

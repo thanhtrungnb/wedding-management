@@ -1,0 +1,39 @@
+{
+  "_chu_thich": "Khuôn dữ liệu mẫu ngân sách. Khoản (danh mục) gắn nhóm dùng chung với việc cần làm; type = thu/chi (mặc định chi); dateOffset = ngày dự kiến chi/thu so với ngày cưới. Ghi chép (records) mang offset ngày thật; deferred = trả sau (nợ), dueOffset = ngày trả dự kiến.",
+  "items": [
+    { "id": "b01", "categoryId": "venue", "name": "Tiệc cưới (dự kiến 20 bàn)", "planned": 100000000, "dateOffset": 0, "note": "Chưa gồm đặt cọc — cọc trừ vào tổng bill." },
+    { "id": "b02", "categoryId": "venue", "name": "Đặt cọc giữ ngày", "planned": 30000000, "dateOffset": -275, "note": "" },
+
+    { "id": "b03", "categoryId": "photo", "name": "Gói chụp ảnh cưới", "planned": 25000000, "dateOffset": -180, "note": "Gồm ngoại cảnh + studio." },
+    { "id": "b04", "categoryId": "photo", "name": "Album & ảnh in", "planned": 8000000, "dateOffset": -160, "note": "" },
+
+    { "id": "b05", "categoryId": "attire", "name": "Thuê váy cưới", "planned": 15000000, "dateOffset": -7, "note": "" },
+    { "id": "b06", "categoryId": "attire", "name": "Vest chú rể", "planned": 6000000, "dateOffset": -5, "note": "" },
+    { "id": "b07", "categoryId": "attire", "name": "Nhẫn cưới", "planned": 20000000, "dateOffset": -160, "note": "" },
+
+    { "id": "b08", "categoryId": "family", "name": "Mâm lễ ăn hỏi", "planned": 15000000, "dateOffset": -10, "note": "" },
+    { "id": "b09", "categoryId": "family", "name": "Rượu & tráp lễ", "planned": 5000000, "dateOffset": -35, "note": "" },
+
+    { "id": "b10", "categoryId": "guest", "name": "Thiệp cưới (300 tờ)", "planned": 9000000, "dateOffset": -80, "note": "" },
+    { "id": "b11", "categoryId": "guest", "name": "Quà cảm ơn khách", "planned": 6000000, "dateOffset": -7, "note": "" },
+    { "id": "b16", "categoryId": "guest", "name": "Tiền mừng của khách (ước tính)", "type": "thu", "planned": 60000000, "dateOffset": 0, "note": "Thu trong ngày tiệc — ước tính theo số bàn." },
+
+    { "id": "b12", "categoryId": "beauty", "name": "Trang điểm & làm tóc", "planned": 5000000, "dateOffset": 0, "note": "" },
+    { "id": "b13", "categoryId": "beauty", "name": "Hoa cầm tay & hoa lương", "planned": 5000000, "dateOffset": 0, "note": "" },
+
+    { "id": "b14", "categoryId": "service", "name": "MC + âm thanh ánh sáng", "planned": 12000000, "dateOffset": 0, "note": "" },
+    { "id": "b15", "categoryId": "service", "name": "Tuần trăng mật", "planned": 40000000, "dateOffset": 3, "note": "Đặt sớm để kịp xin visa nếu đi nước ngoài." }
+  ],
+  "records": [
+    { "itemId": "b02", "amount": 30000000, "offset": -275, "note": "Đã trả khi đặt cọc giữ ngày." },
+    { "itemId": "b03", "amount": 12000000, "offset": -290, "note": "Đợt 1 cho studio." },
+    { "itemId": "b03", "amount": 13000000, "offset": -160, "deferred": true, "dueOffset": -150, "note": "Đợt 2 — trả khi nhận ảnh gốc." },
+    { "itemId": "b05", "amount": 5000000, "offset": -180, "note": "Cọc váy." },
+    { "itemId": "b07", "amount": 20000000, "offset": -160, "note": "" },
+    { "itemId": "b14", "amount": 6000000, "offset": -100, "note": "Cọc MC và đội kỹ thuật." },
+    { "itemId": "b14", "amount": 6000000, "offset": -10, "deferred": true, "dueOffset": -10, "note": "Phần còn lại trả ngay trước tiệc." },
+    { "itemId": "b01", "amount": 50000000, "offset": -30, "deferred": true, "dueOffset": -30, "note": "Đợt 1 cho nhà hàng theo hợp đồng." },
+    { "itemId": "b15", "amount": 20000000, "offset": -130, "note": "Cọc tour." },
+    { "itemId": "b15", "amount": 20000000, "offset": -5, "deferred": true, "dueOffset": -5, "note": "Phần còn lại trước ngày bay." }
+  ]
+}
