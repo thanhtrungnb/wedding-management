@@ -4,20 +4,42 @@
 .toolbar{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr));gap:var(--s-3);align-items:end;margin-top:var(--s-6);padding-bottom:var(--s-4);border-bottom:1px solid var(--line-strong)}
 .page-head__actions{display:flex;align-items:center;gap:var(--s-3)}
 .search{position:relative;display:block}.search .ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--ink-3);pointer-events:none}.search .input{padding-left:40px}
-.group{margin-top:var(--s-6)}
-/* Tiêu đề nhóm đóng thành khối màu để đọc như header của cả cụm việc bên dưới. */
-.group__t{display:flex;justify-content:space-between;align-items:center;font:400 1.25rem/1.2 var(--font-serif);padding:var(--s-2) var(--s-4);margin-bottom:var(--s-2);background:var(--paper-2);border:var(--bw) solid var(--line-strong);border-radius:var(--r-sm)}
-.group__t span{font:400 var(--fs-sm) var(--font-sans);color:var(--ink-3)}
-.task{grid-template-columns:24px minmax(0,1fr)}
+/* Nhóm là một card: tiêu đề full-width thành dải màu của card, danh sách việc nằm gọn trong cùng viền.
+   Hàng việc không kẻ dòng — nhịp dọc tạo bởi padding; trạng thái tô màu chữ, không bôi nền. */
+.group{margin-top:var(--s-6);border:var(--bw) solid var(--line-strong);border-radius:var(--r-md);overflow:hidden;background:var(--surface)}
+.group__t{display:flex;justify-content:space-between;align-items:center;gap:var(--s-3);font:400 1.25rem/1.2 var(--font-serif);padding:var(--s-3) var(--s-4);margin:0;background:var(--paper-2);border-bottom:var(--bw) solid var(--line)}
+.group__n{flex:1}
+.group__c{font:400 var(--fs-sm) var(--font-sans);color:var(--ink-3)}
+.group .tasks{padding:var(--s-2) var(--s-4) var(--s-4)}
+.group .task{border-bottom:0;padding:var(--s-3) 0}
+/* Hàng việc 2 dòng: cột xoay luôn dành sẵn (kể cả việc không có con) để nút tick thẳng hàng mọi cấp.
+   Việc cha click cả dòng để đóng/mở việc con; hover nền nhạt báo hiệu dòng click được. */
+.task{grid-template-columns:24px 24px minmax(0,1fr);gap:var(--s-2) var(--s-4)}
+.task__lead{width:24px;height:24px}
+.task.is-parent{cursor:pointer}
+.task.is-parent .task{cursor:auto}
+.task.is-parent:hover:not(:has(.task__kids:hover)){background:var(--paper-2)}
+.task.is-parent .task__t{font-weight:600}
+.task__l1{display:flex;align-items:center;gap:var(--s-3);min-width:0}
+.task__l1 .task__t{flex:1;min-width:0}
 .task__t{appearance:none;background:none;border:0;padding:0;font:inherit;font-weight:500;text-align:left;color:inherit;cursor:pointer}
 .task__t:hover{text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:3px}
-/* Phân cấp cha con: việc cha ép sát lề trái (giãn cột twist hẹp hơn), việc con thụt sâu vào trong nhờ padding của .task__kids. */
-.task.is-parent{gap:var(--s-3)}
-.task__kids{grid-column:2;list-style:none;margin:var(--s-2) 0 0;padding:0 0 0 var(--s-6);border-left:1px solid var(--line-strong)}
-.task__kids .task{border-bottom:0;padding:var(--s-3) 0 var(--s-1)}
-.twist{position:relative;width:24px;height:24px;display:grid;place-items:center;border:1px solid var(--line-strong);border-radius:50%;background:var(--surface);padding:0;color:var(--ink-2)}
+/* Trạng thái chỉ tô màu chữ: đã xong = xanh (app.css), quá hạn = đỏ đất; không bôi nền hàng. */
+.task.is-over .task__t{color:var(--accent)}
+.task__note{margin-left:auto;display:inline-flex;align-items:center;color:var(--ink-3);cursor:help}
+.task__note .ico{width:14px;height:14px}
+/* Việc con nhỏ hơn, thụt lề theo đường dẫn dọc mảnh. */
+.task__kids{grid-column:1/-1;list-style:none;margin:var(--s-1) 0 var(--s-2) var(--s-4);padding:0 0 var(--s-1) var(--s-5);border-left:1px solid var(--line)}
+.task__kids .task{border-bottom:0;padding:var(--s-2) 0;font-size:var(--fs-sm)}
+.task__kids .task__t{font-weight:400}
+.task__kids .task__m{margin-top:2px;font-size:var(--fs-xs)}
+.tag--prio-high{background:var(--warn-bg);border-color:transparent;color:var(--warn)}
+.tag--prio-low{background:transparent;border-color:transparent;color:var(--ink-3)}
+/* Nút xoay trần (không viền tròn) cho nhẹ nhàng; ::after nới vùng bấm. */
+.twist{position:relative;width:24px;height:24px;display:grid;place-items:center;border:0;background:none;padding:0;color:var(--ink-3)}
 .twist::after{content:"";position:absolute;inset:-10px}
-.twist svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;transition:transform var(--t-fast) var(--ease)}
+.twist:hover{color:var(--ink)}
+.twist svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2;transition:transform var(--t-fast) var(--ease)}
 .twist.is-open svg{transform:rotate(90deg)}
 .count{font-size:var(--fs-xs);font-weight:600;padding:.05rem .55rem;border-radius:999px;background:var(--forest-soft);color:var(--forest);font-variant-numeric:tabular-nums}
 .tag--plain{background:transparent}
