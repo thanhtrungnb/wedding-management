@@ -1,0 +1,20 @@
+/* Design tokens — nguồn chuẩn duy nhất cho màu, chữ, khoảng cách. */
+:root{
+  --paper:#F6F0E4; --paper-2:#EFE7D6; --surface:#FBF8F1;
+  --ink:#1F2A24; --ink-2:#4A5650; --ink-3:#5D6761;
+  --line:#DDD3BF; --line-strong:#C4B79E;
+  --forest:#2F4A3C; --forest-soft:#DCE5DC;
+  --accent:#A8573A; --accent-soft:#F0DDD1; --brass:#B08D57;
+  --warn-bg:#F6E7C9; --warn:#7A5A14;
+  --font-serif:"Newsreader","Iowan Old Style",Georgia,"Times New Roman",serif;
+  --font-sans:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --fs-xs:.75rem; --fs-sm:.875rem; --fs-md:1rem;
+  --fs-xl:clamp(1.6rem,1.2rem + 1.6vw,2.4rem); --fs-hero:clamp(2.1rem,1.2rem + 3.6vw,3.9rem);
+  --lh-tight:1.1; --lh-body:1.55;
+  --s-1:.25rem; --s-2:.5rem; --s-3:.75rem; --s-4:1rem; --s-5:1.5rem; --s-6:2rem; --s-7:3rem; --s-8:4.5rem;
+  --r-sm:4px; --r-md:8px; --bw:1px;
+  --side-w:248px; --content-max:1080px; --tap:44px;
+  --focus:0 0 0 2px var(--paper),0 0 0 4px var(--forest);
+  --t-fast:140ms; --t-med:260ms; --ease:cubic-bezier(.2,.7,.2,1);
+}
+@media (prefers-reduced-motion:reduce){:root{--t-fast:0ms;--t-med:0ms}}
