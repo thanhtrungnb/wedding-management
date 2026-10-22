@@ -1,0 +1,10 @@
+{
+  "_chu_thich": "Sự kiện mẫu là offset ngày so với ngày cưới; ngày thực được sinh khi nạp dữ liệu.",
+  "events": [
+    { "id": "e1", "title": "Chụp ảnh cưới", "offset": -180, "time": "08:00", "location": "Studio ảnh cưới", "note": "Mang theo trang phục đã chuẩn bị.", "type": "booking" },
+    { "id": "e2", "title": "Gặp hai gia đình bàn lễ ăn hỏi", "offset": -150, "time": "10:00", "location": "Nhà gái", "note": "Thống nhất ngày và nghi thức.", "type": "meeting" },
+    { "id": "e3", "title": "Thử trang phục cưới", "offset": -30, "time": "14:00", "location": "", "note": "", "type": "booking" },
+    { "id": "e4", "title": "Lễ ăn hỏi", "offset": -10, "time": "09:00", "location": "", "note": "", "type": "ceremony" },
+    { "id": "e5", "title": "Ngày cưới", "offset": 0, "time": "10:00", "location": "", "note": "Chúc hai bạn trăm năm hạnh phúc!", "type": "ceremony" }
+  ]
+}

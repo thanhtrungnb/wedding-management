@@ -4,6 +4,7 @@ const loaders = {
   '/tong-quan': () => import('../features/dashboard/dashboardView.js'),
   '/viec': () => import('../features/checklist/checklistView.js'),
   '/ngan-sach': () => import('../features/budget/budgetView.js'),
+  '/lich-trinh': () => import('../features/schedule/scheduleView.js'),
   '/cai-dat': () => import('../features/settings/settingsView.js'),
 };
 let ctrl, first = true;
