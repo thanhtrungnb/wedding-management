@@ -1,0 +1,90 @@
+assets/css/tokens.css
+  s_7f73a93e36b199::t_214d9ae7c05e5f 15
+src/ui/icons.js
+  s_7f73a93e36b199::t_0ba4beceb14d3e 8-12
+src/utils/format.js
+  s_7f73a93e36b199::t_fd4b8db73a15f8 15-16
+src/features/checklist/taskRow.js
+  s_7f73a93e36b199::t_359ef05f506dce 26-28
+  s_7f73a93e36b199::t_0bdb3a0a2cb6af 14
+assets/css/checklist.css
+  s_e33d7ee6ad8a43::t_4deac0c6e069ea 4-5
+  s_e33d7ee6ad8a43::t_2b9320315c094f 8-9
+  s_e33d7ee6ad8a43::t_afa6f33a994d61 14-16
+  s_e33d7ee6ad8a43::t_3049a8fe8fa8aa 27
+src/features/settings/settingsView.js
+  s_7f73a93e36b199::t_1745715ef61f20 63
+  s_e33d7ee6ad8a43::t_a6437d723aca63 45
+  s_7f73a93e36b199::t_bcd9ae1bc3011d 47
+  s_7f73a93e36b199::t_fa61520884813f 53
+  s_7f73a93e36b199::t_24821f935d4f3b 7-9
+  s_7f73a93e36b199::t_73948a452f95dd 68,76-77,88,96
+  s_7f73a93e36b199::t_745c13e540ed1a 62
+  s_7f73a93e36b199::t_942276c4fc880f 87,89
+  s_7f73a93e36b199::t_6b557f2e58876b 57
+src/features/dashboard/dashboardView.js
+  s_7f73a93e36b199::t_a206db612ec337 22,37-38,40-45,48-49,52,60-61,63
+  s_7f73a93e36b199::t_e52e5de71a96f0 7,14-17,30-34,62,65-66
+  s_7f73a93e36b199::t_96845d4c8bd5fc 11-13,24-29,36,50,57-59,64
+  s_e33d7ee6ad8a43::t_dce33beff853b4 39
+assets/css/app.css
+  s_7f73a93e36b199::t_83fb1f37f687af 86
+  s_e33d7ee6ad8a43::t_54c5e775725034 56-57
+  s_7f73a93e36b199::t_d07fd95795bfa5 119-120
+  s_7f73a93e36b199::t_4a74eda2294559 37
+  s_7f73a93e36b199::t_1b93d6575b7b46 72
+  s_7f73a93e36b199::t_7500e06b76b92d 109-110
+  s_7f73a93e36b199::t_3f13ad75b1dfce 26-28
+  s_7f73a93e36b199::t_8f9ccc117b131f 36,38-39
+  s_e33d7ee6ad8a43::t_4e6c71e247943e 52
+  s_7f73a93e36b199::t_14ef751f6631cd 54-55,60-61,63-64
+  s_7f73a93e36b199::t_8eecb83dc50d4a 74-80
+  s_7f73a93e36b199::t_ca8c80db7b940a 93,95,100
+  s_7f73a93e36b199::t_6781ad5b58167d 126-127
+  s_7f73a93e36b199::t_f62f2de8cf0213 58-59
+  s_7f73a93e36b199::t_c85a1a6c35a9d7 92,94,96-99,101-103
+  s_e33d7ee6ad8a43::t_1693f7b7aad03e 117
+  s_7f73a93e36b199::t_060bbd7ebc923e 69
+  s_7f73a93e36b199::t_6f72e62bc2ff4a 51
+  s_e33d7ee6ad8a43::t_5e67f13e6133b7 53
+  s_e33d7ee6ad8a43::t_6754573a9570be 62
+  s_e33d7ee6ad8a43::t_08067a8429fdf0 23
+  s_e33d7ee6ad8a43::t_a268b9ffbe871e 47-50
+  s_7f73a93e36b199::t_86bd720934e7fd 17,22
+  s_7f73a93e36b199::t_86a18674271078 115-116,118,121
+src/core/nav.js
+  s_7f73a93e36b199::t_a2686a001aa104 2-3,9,14-15,17-19,25
+  s_e33d7ee6ad8a43::t_57a711d351bc64 20-22
+assets/css/settings.css
+  s_7f73a93e36b199::t_8f46a80b03d7b9 1,3-9,13
+  s_7f73a93e36b199::t_7018071959d85f 22
+  s_7f73a93e36b199::t_0e39b5814790e1 2
+src/features/checklist/checklistView.js
+  s_e33d7ee6ad8a43::t_21c872af4988c4 23,28
+  s_e33d7ee6ad8a43::t_bb70cb4e97a8c0 22
+  s_7f73a93e36b199::t_9dcf86599b9d3c 56
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "51960e99674f262045e607b99dbca75dd36969a8",
+  "prompts": {},
+  "sessions": {
+    "s_7f73a93e36b199": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "e33ef72b-d8e6-43a6-b468-3fc21dc3398c",
+        "model": "deepseek-v4-pro"
+      },
+      "human_author": "nttrungmisa <nttrung.misa@gmail.com>"
+    },
+    "s_e33d7ee6ad8a43": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "84f6ce6d-2061-4586-a427-d0720b5d7ab8",
+        "model": "deepseek-v4-pro"
+      },
+      "human_author": "nttrungmisa <nttrung.misa@gmail.com>"
+    }
+  }
+}
