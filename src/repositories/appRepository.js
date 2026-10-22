@@ -13,6 +13,9 @@ const loadTemplate = () => templatePromise ??= fetch(new URL('../data/sample_tas
 let budgetTplPromise = null;
 const loadBudgetTemplate = () => budgetTplPromise ??= fetch(new URL('../data/sample_budget.json', import.meta.url))
   .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
+let scheduleTplPromise = null;
+const loadScheduleTemplate = () => scheduleTplPromise ??= fetch(new URL('../data/sample_schedule.json', import.meta.url))
+  .then(r => { if (!r.ok) throw new Error('HTTP ' + r.status); return r.json(); });
 
 const addDays = (d, n) => { const x = new Date(d); x.setDate(x.getDate() + n); return x; };
 const iso = d => `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
@@ -38,9 +41,13 @@ function buildBudget(tpl, due) {
 
 async function seed() {
   const tpl = await loadTemplate(), s = buildSample(tpl);
-  const budget = await loadBudgetTemplate().then(bt => buildBudget(bt, s.due)).catch(() => ({ items: [], records: [] }));
+  const [budgetTpl, scheduleTpl] = await Promise.all([
+    loadBudgetTemplate().catch(() => ({ items: [], records: [] })),
+    loadScheduleTemplate().catch(() => ({ events: [] })),
+  ]);
+  const budget = buildBudget(budgetTpl, s.due);
   return validateAppData({ schemaVersion: SCHEMA_VERSION, isSample: true, couple: tpl.couple, weddingDate: s.weddingDate,
-    categories: tpl.categories, tasks: s.tasks, milestones: s.milestones, budget }).data;
+    categories: tpl.categories, tasks: s.tasks, events: (scheduleTpl.events || []).map(e => ({ ...e, date: s.due(e.offset) })), milestones: s.milestones, budget }).data;
 }
 
 /* Nhóm gợi ý dự phòng khi không đọc được khuôn — "Sổ trống" vẫn dùng được, không bricked. */
@@ -49,7 +56,7 @@ const FALLBACK_CATEGORIES = [
   { id: 'family', name: 'Lễ nghi & gia đình' }, { id: 'guest', name: 'Khách mời & thiệp' },
 ];
 const blankData = () => ({ schemaVersion: SCHEMA_VERSION, isSample: false, couple: { bride: '', groom: '' }, weddingDate: '',
-  categories: structuredClone(FALLBACK_CATEGORIES), tasks: [], milestones: [], budget: { items: [], records: [] } });
+  categories: structuredClone(FALLBACK_CATEGORIES), tasks: [], events: [], milestones: [], budget: { items: [], records: [] } });
 
 export async function load() {
   const raw = readRaw();

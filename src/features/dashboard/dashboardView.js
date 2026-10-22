@@ -2,6 +2,7 @@ import { getData, commit, undo, onChange } from '../../core/store.js';
 import { toast } from '../../core/toast.js';
 import * as D from '../../services/dashboard.js';
 import { toggleDone } from '../../services/taskService.js';
+import { importantEvents } from '../../config/schedule.js';
 import { taskRow } from '../checklist/taskRow.js';
 import { openTaskDetail } from '../checklist/taskDetail.js';
 import { formatVND, formatVNDShort, formatDateLong, daysBetween, todayStart, parseDate, esc } from '../../utils/format.js';
@@ -20,6 +21,7 @@ function view() {
   const d = getData(), p = D.progress(d.tasks), b = D.budgetSummary(d.budget);
   const left = daysBetween(d.weddingDate, today), over = D.overdueCount(d.tasks, today), week = D.weekCount(d.tasks, today);
   const next = D.nextActions(d.tasks, today, 6);
+  const keyEvents = importantEvents(d.events);
   const pctOf = v => b.planned ? Math.max(0, Math.min(100, v / b.planned * 100)) : 0;
   const hero = left === null ? 'Hãy chọn ngày cưới để bắt đầu hành trình đếm ngược' : left < 0 ? 'Chúc mừng hai bạn!' : left === 0 ? 'Hôm nay là ngày cưới của hai bạn' : '';
   const lede = !p.total
@@ -27,10 +29,10 @@ function view() {
     : over
       ? `Hai bạn đã hoàn tất ${p.done} trên ${p.total} đầu việc. Hiện còn ${over} việc đã quá hạn — rất mong hai bạn ưu tiên xử lý.`
       : `Hai bạn đã hoàn tất ${p.done} trên ${p.total} đầu việc. Mọi thứ đang từng bước nên trọn.`;
-  const miles = d.milestones.map(m => {
+  const miles = keyEvents.map(m => {
     const n = daysBetween(m.date, today), x = dmy(m.date);
     const when = n === null ? '' : n < 0 ? '<span class="tag">Đã qua</span>' : n <= 14 ? `<span class="tag tag--urgent">Còn ${n} ngày</span>` : `<span class="tag">Còn ${n} ngày</span>`;
-    return `<li class="${m.big ? 'is-big' : ''}"><time><b>${x ? x.d : '–'}</b><span>${x ? x.m : 'Chưa đặt ngày'}</span></time><span class="miles__dot" aria-hidden="true"></span><span class="miles__tx"><b>${esc(m.title)}</b>${when}</span></li>`;
+    return `<li class="${m.big ? 'is-big' : ''}"><time><b>${x ? x.d : '–'}</b><span>${x ? x.m : 'Chưa đặt ngày'}</span></time><span class="miles__dot" aria-hidden="true"></span><span class="miles__tx"><b><a class="section__link" href="#/lich-trinh">${esc(m.title)}</a></b>${when}</span></li>`;
   }).join('');
   return `
   <section class="hero rise" aria-labelledby="h1">
@@ -60,7 +62,7 @@ function view() {
       <li><span></span>Đã thu<b>${esc(formatVNDShort(b.thu))}</b></li></ul>
     <p class="fine">Độ lệch = thực chi − dự chi. Thực chi ghi dần theo từng lần trả; khoản “trả sau” đã tính vào thực chi nhưng chưa ra tiền.</p></section>
   <section class="panel" aria-labelledby="hm"><div class="section__head"><h2 id="hm">Mốc quan trọng</h2></div>
-    ${d.milestones.length ? `<ol class="miles">${miles}</ol>` : '<p>Chưa có mốc nào được đặt.</p>'}</section>
+    ${keyEvents.length ? `<ol class="miles">${miles}</ol>` : '<p>Chưa có sự kiện quan trọng.</p>'}</section>
   </div>
 
   <section class="panel band" aria-labelledby="hv"><div class="section__head"><h2 id="hv">Danh sách việc cần làm</h2><span class="eyebrow">${week} việc trong 7 ngày tới · <a class="section__link" href="#/viec">Xem thêm</a></span></div>
