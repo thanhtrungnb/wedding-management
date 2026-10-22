@@ -1,0 +1,23 @@
+.page-head{display:flex;justify-content:space-between;align-items:flex-end;gap:var(--s-5)}
+.page-title{font:400 var(--fs-hero)/var(--lh-tight) var(--font-serif);letter-spacing:-.015em;margin:var(--s-2) 0}
+.lede{color:var(--ink-2);max-width:52ch}
+.toolbar{display:grid;grid-template-columns:minmax(0,1.5fr) repeat(3,minmax(0,1fr)) auto;gap:var(--s-3);align-items:end;margin-top:var(--s-6);padding-bottom:var(--s-4);border-bottom:1px solid var(--line-strong)}
+.search{position:relative;display:block}.search .ico{position:absolute;left:12px;top:50%;transform:translateY(-50%);color:var(--ink-3);pointer-events:none}.search .input{padding-left:40px}
+.group{margin-top:var(--s-6)}
+.group__t{display:flex;justify-content:space-between;align-items:baseline;font:400 1.5rem/1.2 var(--font-serif);padding-bottom:var(--s-2);border-bottom:1px solid var(--ink)}
+.group__t span{font:400 var(--fs-sm) var(--font-sans);color:var(--ink-3)}
+.task{grid-template-columns:24px minmax(0,1fr)}
+.task__t{appearance:none;background:none;border:0;padding:0;font:inherit;font-weight:500;text-align:left;color:inherit;cursor:pointer}
+.task__t:hover{text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:3px}
+.task__kids{grid-column:2;list-style:none;margin:var(--s-2) 0 0;padding:0 0 0 var(--s-4);border-left:1px solid var(--line-strong)}
+.task__kids .task{border-bottom:0;padding:var(--s-3) 0 var(--s-1)}
+.twist{position:relative;width:24px;height:24px;display:grid;place-items:center;border:1px solid var(--line-strong);border-radius:50%;background:var(--surface);padding:0;color:var(--ink-2)}
+.twist::after{content:"";position:absolute;inset:-10px}
+.twist svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.8;transition:transform var(--t-fast) var(--ease)}
+.twist.is-open svg{transform:rotate(90deg)}
+.count{font-size:var(--fs-xs);font-weight:600;padding:.05rem .55rem;border-radius:999px;background:var(--forest-soft);color:var(--forest);font-variant-numeric:tabular-nums}
+.tag--plain{background:transparent}
+.empty{text-align:center;padding:var(--s-8) var(--s-4)}.empty h2{font-size:1.6rem;margin-bottom:var(--s-2)}.empty p{max-width:42ch;margin:0 auto var(--s-5);color:var(--ink-2)}
+.stack-form{max-width:36rem}.filebtn{cursor:pointer}
+@media (max-width:960px){.toolbar{grid-template-columns:1fr 1fr}.search{grid-column:1/-1}}
+@media (max-width:760px){.page-head{flex-direction:column;align-items:stretch}.page-head .btn{align-self:flex-start}}
