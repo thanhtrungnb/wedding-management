@@ -1,0 +1,29 @@
+CLAUDE.md
+  s_bfdd6388150f4f::t_37f308475522d3 1-51
+run.bat
+  s_7c2ae1c49f9134::t_7ea6abe56c0dc9 1-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "481b1211ddf00c941452246717b9abffac01ec0d",
+  "prompts": {},
+  "sessions": {
+    "s_7c2ae1c49f9134": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "879dcefe-d5fb-49b6-bb8e-11af609a2167",
+        "model": "unknown"
+      },
+      "human_author": "nttrungmisa <nttrung.misa@gmail.com>"
+    },
+    "s_bfdd6388150f4f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "414312f1-b0d3-4339-aa61-0741b6bf206e",
+        "model": "unknown"
+      },
+      "human_author": "nttrungmisa <nttrung.misa@gmail.com>"
+    }
+  }
+}
