@@ -1,0 +1,83 @@
+{
+  "_chu_thich": "Khuôn dữ liệu mẫu: ngày của việc/mốc là offset (số ngày) so với ngày cưới, âm = trước ngày cưới. Lúc nạp, ứng dụng sinh ngày cưới = hôm nay + prepDays rồi tính ngày thật cho từng việc, nên mẫu luôn tươi. Trường done: đánh dấu hoàn thành có sẵn (mặc định false); việc cha done độc lập với việc con.",
+  "couple": { "bride": "Minh Anh", "groom": "Quốc Bảo" },
+  "prepDays": 150,
+  "categories": [
+    { "id": "venue", "name": "Địa điểm & tiệc" },
+    { "id": "photo", "name": "Ảnh cưới" },
+    { "id": "attire", "name": "Trang phục" },
+    { "id": "family", "name": "Lễ nghi & gia đình" },
+    { "id": "guest", "name": "Khách mời & thiệp" },
+    { "id": "beauty", "name": "Trang điểm & hoa" },
+    { "id": "service", "name": "Dịch vụ & khác" }
+  ],
+  "tasks": [
+    { "id": "t01", "parentId": null, "title": "Chốt nhà hàng tổ chức tiệc cưới", "categoryId": "venue", "dueOffset": -275, "priority": "high", "owner": "both", "done": true, "tags": [], "note": "So sánh báo giá và chính sách đặt cọc trước khi chốt." },
+    { "id": "t01a", "parentId": "t01", "title": "Lập danh sách 3–5 nhà hàng tiềm năng", "categoryId": "venue", "dueOffset": -320, "priority": "medium", "owner": "both", "done": true, "tags": [], "note": "" },
+    { "id": "t01b", "parentId": "t01", "title": "Tham quan và so sánh báo giá", "categoryId": "venue", "dueOffset": -300, "priority": "high", "owner": "both", "done": true, "tags": [], "note": "" },
+    { "id": "t01c", "parentId": "t01", "title": "Đặt cọc giữ ngày", "categoryId": "venue", "dueOffset": -275, "priority": "high", "owner": "groom", "done": true, "tags": [], "note": "Giữ hóa đơn đặt cọc để đối chiếu khi thanh toán." },
+    { "id": "t02", "parentId": null, "title": "Chốt thực đơn và số bàn", "categoryId": "venue", "dueOffset": -90, "priority": "high", "owner": "both", "tags": [], "note": "" },
+    { "id": "t03", "parentId": null, "title": "Duyệt sơ đồ bố trí bàn và sân khấu", "categoryId": "venue", "dueOffset": -30, "priority": "medium", "owner": "both", "tags": [], "note": "" },
+
+    { "id": "t04", "parentId": null, "title": "Chọn studio chụp ảnh cưới", "categoryId": "photo", "dueOffset": -290, "priority": "high", "owner": "both", "done": true, "tags": [], "note": "" },
+    { "id": "t04a", "parentId": "t04", "title": "Xem portfolio và báo giá các studio", "categoryId": "photo", "dueOffset": -310, "priority": "medium", "owner": "both", "done": true, "tags": [], "note": "" },
+    { "id": "t04b", "parentId": "t04", "title": "Chốt gói chụp và lịch hẹn", "categoryId": "photo", "dueOffset": -290, "priority": "high", "owner": "both", "done": true, "tags": [], "note": "" },
+    { "id": "t05", "parentId": null, "title": "Chụp ảnh cưới (studio + ngoại cảnh)", "categoryId": "photo", "dueOffset": -180, "priority": "high", "owner": "both", "done": true, "tags": [], "note": "Chụp sớm để kịp chọn ảnh làm album trước ngày cưới." },
+    { "id": "t06", "parentId": null, "title": "Chọn ảnh in và duyệt album", "categoryId": "photo", "dueOffset": -160, "priority": "medium", "owner": "bride", "tags": [], "note": "Studio giữ ảnh gốc 6 tháng — nên chọn sớm." },
+
+    { "id": "t07", "parentId": null, "title": "Thuê váy cưới", "categoryId": "attire", "dueOffset": -7, "priority": "high", "owner": "bride", "tags": [], "note": "" },
+    { "id": "t07a", "parentId": "t07", "title": "Thử váy lần đầu", "categoryId": "attire", "dueOffset": -180, "priority": "medium", "owner": "bride", "done": true, "tags": [], "note": "" },
+    { "id": "t07b", "parentId": "t07", "title": "Chỉnh váy và thử lần hai", "categoryId": "attire", "dueOffset": -90, "priority": "medium", "owner": "bride", "tags": [], "note": "" },
+    { "id": "t07c", "parentId": "t07", "title": "Nhận váy và phụ kiện", "categoryId": "attire", "dueOffset": -7, "priority": "high", "owner": "bride", "tags": [], "note": "Kiểm tra khuy, kéo và voan trước khi rời cửa hàng." },
+    { "id": "t08", "parentId": null, "title": "Đặt may vest cho chú rể", "categoryId": "attire", "dueOffset": -5, "priority": "medium", "owner": "groom", "tags": [], "note": "" },
+    { "id": "t08a", "parentId": "t08", "title": "Đo size và chọn vải", "categoryId": "attire", "dueOffset": -170, "priority": "medium", "owner": "groom", "done": true, "tags": [], "note": "" },
+    { "id": "t08b", "parentId": "t08", "title": "Thử vest và chỉnh sửa", "categoryId": "attire", "dueOffset": -80, "priority": "medium", "owner": "groom", "tags": [], "note": "" },
+    { "id": "t08c", "parentId": "t08", "title": "Nhận vest", "categoryId": "attire", "dueOffset": -5, "priority": "medium", "owner": "groom", "tags": [], "note": "" },
+    { "id": "t09", "parentId": null, "title": "Chọn nhẫn cưới", "categoryId": "attire", "dueOffset": -160, "priority": "medium", "owner": "both", "done": true, "tags": [], "note": "Đo size nhẫn vào buổi chiều khi ngón tay đã giãn ổn định." },
+
+    { "id": "t10", "parentId": null, "title": "Bàn lễ ăn hỏi với hai họ", "categoryId": "family", "dueOffset": -150, "priority": "high", "owner": "both", "tags": [], "note": "Chọn ngày ăn hỏi theo lịch tốt và thuận tiện cho hai họ." },
+    { "id": "t11", "parentId": null, "title": "Chuẩn bị mâm lễ ăn hỏi", "categoryId": "family", "dueOffset": -35, "priority": "high", "owner": "both", "tags": [], "note": "" },
+    { "id": "t11a", "parentId": "t11", "title": "Đặt tráp lễ và rượu", "categoryId": "family", "dueOffset": -45, "priority": "high", "owner": "bride", "tags": [], "note": "" },
+    { "id": "t11b", "parentId": "t11", "title": "Chuẩn bị trang phục lễ ăn hỏi", "categoryId": "family", "dueOffset": -35, "priority": "medium", "owner": "both", "tags": [], "note": "" },
+    { "id": "t12", "parentId": null, "title": "Lễ ăn hỏi (dạm ngõ)", "categoryId": "family", "dueOffset": -10, "priority": "high", "owner": "both", "tags": [], "note": "" },
+    { "id": "t13", "parentId": null, "title": "Xin đăng ký kết hôn", "categoryId": "family", "dueOffset": -60, "priority": "medium", "owner": "both", "tags": [], "note": "Kiểm tra giấy tờ tạm trú trước khi nộp hồ sơ." },
+
+    { "id": "t14", "parentId": null, "title": "Lập danh sách khách mời hai họ", "categoryId": "guest", "dueOffset": -120, "priority": "high", "owner": "both", "tags": [], "note": "" },
+    { "id": "t14a", "parentId": "t14", "title": "Danh sách họ nhà gái", "categoryId": "guest", "dueOffset": -140, "priority": "medium", "owner": "bride", "tags": [], "note": "" },
+    { "id": "t14b", "parentId": "t14", "title": "Danh sách họ nhà trai", "categoryId": "guest", "dueOffset": -140, "priority": "medium", "owner": "groom", "tags": [], "note": "" },
+    { "id": "t14c", "parentId": "t14", "title": "Chốt số lượng khách theo số bàn", "categoryId": "guest", "dueOffset": -120, "priority": "high", "owner": "both", "tags": [], "note": "" },
+    { "id": "t15", "parentId": null, "title": "Thiết kế và in thiệp cưới", "categoryId": "guest", "dueOffset": -80, "priority": "medium", "owner": "bride", "tags": [], "note": "" },
+    { "id": "t15a", "parentId": "t15", "title": "Chọn mẫu thiệp và nội dung", "categoryId": "guest", "dueOffset": -110, "priority": "medium", "owner": "bride", "tags": [], "note": "" },
+    { "id": "t15b", "parentId": "t15", "title": "In thiệp và kiểm tra chất lượng", "categoryId": "guest", "dueOffset": -80, "priority": "medium", "owner": "bride", "tags": [], "note": "" },
+    { "id": "t16", "parentId": null, "title": "Gửi thiệp mời khách", "categoryId": "guest", "dueOffset": -25, "priority": "medium", "owner": "both", "tags": [], "note": "" },
+    { "id": "t17", "parentId": null, "title": "Sắp xếp chỗ ngồi cho khách", "categoryId": "guest", "dueOffset": -7, "priority": "medium", "owner": "both", "tags": [], "note": "" },
+
+    { "id": "t18", "parentId": null, "title": "Đặt lịch trang điểm và làm tóc", "categoryId": "beauty", "dueOffset": -90, "priority": "high", "owner": "bride", "tags": [], "note": "" },
+    { "id": "t19", "parentId": null, "title": "Chọn hoa cầm tay và hoa lương", "categoryId": "beauty", "dueOffset": -60, "priority": "medium", "owner": "bride", "tags": [], "note": "" },
+
+    { "id": "t20", "parentId": null, "title": "Đặt MC và đội âm thanh ánh sáng", "categoryId": "service", "dueOffset": -100, "priority": "high", "owner": "groom", "tags": [], "note": "" },
+    { "id": "t21", "parentId": null, "title": "Thu âm lời dẫn và nhạc cưới", "categoryId": "service", "dueOffset": -50, "priority": "medium", "owner": "both", "tags": [], "note": "" },
+    { "id": "t22", "parentId": null, "title": "Đặt tour tuần trăng mật", "categoryId": "service", "dueOffset": -130, "priority": "medium", "owner": "both", "tags": [], "note": "Đặt sớm để kịp xin visa nếu đi nước ngoài." },
+    { "id": "t23", "parentId": null, "title": "Tổng duyệt và kiểm tra cuối cùng", "categoryId": "service", "dueOffset": -3, "priority": "high", "owner": "both", "tags": [], "note": "Rà lại toàn bộ hợp đồng, lịch trình và số điện thoại đầu mối." }
+  ],
+  "milestones": [
+    { "id": "m1", "title": "Chụp ảnh cưới", "offset": -180 },
+    { "id": "m2", "title": "Lễ ăn hỏi", "offset": -10 },
+    { "id": "m3", "title": "Tiệc cưới", "offset": 0, "big": true }
+  ],
+  "budget": {
+    "income": [
+      { "label": "Tiết kiệm của hai bạn", "amount": 200000000 },
+      { "label": "Hai gia đình hỗ trợ", "amount": 150000000 },
+      { "label": "Quà mừng dự kiến", "amount": 250000000 }
+    ],
+    "items": [
+      { "id": "b1", "name": "Tiệc cưới", "planned": 220000000, "committed": 0, "paid": 0 },
+      { "id": "b2", "name": "Ảnh cưới", "planned": 45000000, "committed": 0, "paid": 0 },
+      { "id": "b3", "name": "Trang phục & trang điểm", "planned": 60000000, "committed": 18000000, "paid": 18000000 },
+      { "id": "b4", "name": "Trang trí", "planned": 35000000, "committed": 0, "paid": 0 },
+      { "id": "b5", "name": "Nhẫn & trang sức", "planned": 50000000, "committed": 48000000, "paid": 48000000 },
+      { "id": "b6", "name": "Lễ ăn hỏi & chi phí khác", "planned": 40000000, "committed": 0, "paid": 0 }
+    ]
+  }
+}

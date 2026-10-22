@@ -37,9 +37,10 @@ Key mechanics that span multiple files:
 - **Validation**: `models/schema.js` `validateAppData()` is the single gate for all inbound data (localStorage load AND JSON import). It returns `{ ok, errors, data }` — normalized data even when invalid. Corrupt localStorage data is quarantined under `wm:corrupt:*` rather than silently dropped.
 - **Task domain rules** (enforced in `services/taskService.js` / `models/task.js`):
   - Max 2 levels: a task with children can't become a child; a child can't be a parent.
-  - Parent `done` is derived — `syncParents` sets it when all children are done; parents with children can't be toggled directly.
+  - `done` is independent per task — a parent is NOT derived from its children; all children can be done while the parent isn't, and the parent has its own tick.
   - Child tasks inherit `categoryId` from their parent.
   - Progress counts only leaf tasks (`progressUnits` in `services/dashboard.js`).
+- **Sample data**: `src/data/sample_tasks.json` is an offset-based template (dates relative to wedding date, `done` flags explicit). `appRepository.js` fetches it, computes `weddingDate = today + prepDays`, and resolves offsets to real dates at seed time — so the sample never goes stale. Repository load/reset/blank are async; `store.js` uses top-level await.
 - **View pattern**: views render HTML template strings into `innerHTML`, then bind delegated listeners on the container with `{ signal }`. Re-render = replace innerHTML + restore focus via a key selector (see `checklistView.js` `keyOf`). XSS: user content must go through `esc()` from `utils/format.js`.
 
 ## Conventions
