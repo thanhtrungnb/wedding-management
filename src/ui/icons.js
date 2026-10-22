@@ -12,4 +12,6 @@ export const ICON = {
   warn:'<path d="M12 4l9 16H3z"/><path d="M12 10v5m0 2.5v.5"/>',
 };
 ICON.chev='<path d="M9 6l6 6-6 6"/>'; ICON.plus='<path d="M12 5v14M5 12h14"/>'; ICON.x='<path d="M6 6l12 12M18 6L6 18"/>'; ICON.down='<path d="M6 9l6 6 6-6"/>'; ICON.search='<circle cx="11" cy="11" r="6"/><path d="M20 20l-4-4"/>'; ICON.note='<path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 12h6M9 16h4"/>';
+ICON.pencil='<path d="M4 20l1.2-4.2L16.4 4.6a2.1 2.1 0 0 1 3 3L8.2 18.8 4 20z"/><path d="M14.5 6.5l3 3"/>';
+ICON.trash='<path d="M4 7h16M9.5 7V4h5v3M6.5 7l1 13h9l1-13"/><path d="M10 11v5.5M14 11v5.5"/>';
 export const svg = (n, cls = '') => `<svg class="ico ${cls}" viewBox="0 0 24 24" aria-hidden="true">${ICON[n]}</svg>`;

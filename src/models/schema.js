@@ -24,11 +24,31 @@ export function validateAppData(raw) {
   const byId = new Map(tasks.map(t => [t.id, t]));
   tasks.forEach(t => { if (!t.parentId) return; const p = byId.get(t.parentId); if (!p || p.parentId) err.push(`Việc “${t.title}” có việc cha không hợp lệ (tối đa 2 cấp).`); });
   tasks.forEach(t => { if (!t.parentId && !categories.some(c => c.id === t.categoryId)) err.push(`Việc “${t.title}” thuộc nhóm không tồn tại.`); });
-  const b = raw.budget ?? { income: [], items: [] };
-  (b.items ?? []).forEach(x => { if (!['planned', 'committed', 'paid'].every(k => money(x?.[k]))) err.push(`Khoản chi “${x?.name ?? '?'}” có số tiền không hợp lệ.`); });
-  (b.income ?? []).forEach(x => { if (!money(x?.amount)) err.push(`Khoản thu “${x?.label ?? '?'}” có số tiền không hợp lệ.`); });
+  /* Ngân sách: khoản (danh mục) gắn nhóm dùng chung; ghi chép tách riêng để ghi dần, trả sau là cờ trên ghi chép.
+     Dữ liệu cũ dùng khóa `payments` (toàn chi) — đọc được như ghi chép chi để không mất dữ liệu đã lưu. */
+  const b = raw.budget ?? {};
+  const bItems = [], bRecords = [], biid = new Set();
+  (Array.isArray(b.items) ? b.items : []).forEach((x, i) => {
+    const id = str(x?.id) || `b${i + 1}`;
+    if (!str(x?.name)) return err.push(`Khoản #${i + 1} thiếu tên.`);
+    if (biid.has(id)) return err.push(`Khoản trùng mã: ${id}`); biid.add(id);
+    if (!money(x?.planned)) return err.push(`Khoản “${x.name}” có số tiền dự tính không hợp lệ.`);
+    if (!categories.some(c => c.id === x?.categoryId)) return err.push(`Khoản “${x.name}” thuộc nhóm không tồn tại.`);
+    if (x?.date && !parseDate(x.date)) err.push(`Khoản “${x.name}” có ngày dự kiến không hợp lệ.`);
+    bItems.push({ id, categoryId: x.categoryId, name: str(x.name), type: x?.type === 'thu' ? 'thu' : 'chi',
+      planned: x.planned, date: x.date || '', note: str(x?.note) });
+  });
+  const itemIds = new Set(bItems.map(x => x.id));
+  (Array.isArray(b.records) ? b.records : (Array.isArray(b.payments) ? b.payments : [])).forEach((x, i) => {
+    if (!money(x?.amount)) return err.push(`Ghi chép #${i + 1} có số tiền không hợp lệ.`);
+    if (!itemIds.has(x?.itemId)) return err.push(`Ghi chép #${i + 1} không thuộc khoản nào.`);
+    if (x?.date && !parseDate(x.date)) err.push(`Ghi chép #${i + 1} có ngày không hợp lệ.`);
+    if (x?.deferred && x?.dueDate && !parseDate(x.dueDate)) err.push(`Ghi chép #${i + 1} có ngày trả dự kiến không hợp lệ.`);
+    bRecords.push({ id: str(x?.id) || `r${i + 1}`, itemId: x.itemId, type: x?.type === 'thu' ? 'thu' : 'chi', amount: x.amount,
+      date: x.date || '', note: str(x?.note), deferred: !!x?.deferred, dueDate: x?.deferred ? (x.dueDate || '') : '' });
+  });
   if (raw.weddingDate && !parseDate(raw.weddingDate)) err.push('Ngày cưới không hợp lệ.');
   const data = { schemaVersion: SCHEMA_VERSION, isSample: !!raw.isSample, couple: { bride: str(raw.couple?.bride), groom: str(raw.couple?.groom) },
-    weddingDate: raw.weddingDate || '', categories, tasks, milestones: Array.isArray(raw.milestones) ? raw.milestones : [], budget: { income: b.income ?? [], items: b.items ?? [] } };
+    weddingDate: raw.weddingDate || '', categories, tasks, milestones: Array.isArray(raw.milestones) ? raw.milestones : [], budget: { items: bItems, records: bRecords } };
   return { ok: err.length === 0, errors: err.slice(0, 6), data };
 }
