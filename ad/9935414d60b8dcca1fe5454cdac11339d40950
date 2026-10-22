@@ -1,0 +1,46 @@
+src/core/nav.js
+  s_fa4245bd3fe40a::t_208e23ed1dd463 14-15
+src/features/dashboard/dashboardView.js
+  s_fa4245bd3fe40a::t_8502daf703da3a 53
+index.html
+  s_fa4245bd3fe40a::t_1ab7a6777e0276 6,8
+assets/css/app.css
+  s_fa4245bd3fe40a::t_99a6c72fb71b77 102
+  s_fa4245bd3fe40a::t_dcb600b4df950e 2-3
+  s_92a3b6a901c427::t_14d6ccdd662bd0 68
+src/ui/sheet.js
+  s_fa4245bd3fe40a::t_6c7351b9585712 1
+assets/css/tokens.css
+  s_fa4245bd3fe40a::t_da06f699d51946 4
+assets/css/forms.css
+  s_fa4245bd3fe40a::t_53fed285103b1b 46
+  s_fa4245bd3fe40a::t_c9fbf5e56296b5 28-29,31-32
+README.md
+  s_fa4245bd3fe40a::t_12d405a9a9003b 1-58
+src/features/checklist/taskRow.js
+  s_92a3b6a901c427::t_2110a19df6ee16 23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "ad9935414d60b8dcca1fe5454cdac11339d40950",
+  "prompts": {},
+  "sessions": {
+    "s_92a3b6a901c427": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c410774d-d18d-4c31-a577-295c2aa37339",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "nttrungmisa <nttrung.misa@gmail.com>"
+    },
+    "s_fa4245bd3fe40a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0d58a722-31a2-4cd2-898c-11cd5d25f3fb",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "nttrungmisa <nttrung.misa@gmail.com>"
+    }
+  }
+}
