@@ -20,7 +20,7 @@ function view() {
   const d = getData(), p = D.progress(d.tasks), b = D.budgetSummary(d.budget);
   const left = daysBetween(d.weddingDate, today), over = D.overdueCount(d.tasks, today), week = D.weekCount(d.tasks, today);
   const next = D.nextActions(d.tasks, today, 6);
-  const pctOf = v => b.planned ? Math.max(0, v / Math.max(b.planned, b.committed) * 100) : 0;
+  const pctOf = v => b.planned ? Math.max(0, Math.min(100, v / b.planned * 100)) : 0;
   const hero = left === null ? 'Hãy chọn ngày cưới để bắt đầu hành trình đếm ngược' : left < 0 ? 'Chúc mừng hai bạn!' : left === 0 ? 'Hôm nay là ngày cưới của hai bạn' : '';
   const lede = !p.total
     ? 'Hãy thêm những đầu việc đầu tiên để cùng nhau khởi động hành trình chuẩn bị.'
@@ -49,15 +49,16 @@ function view() {
   <section class="panel" aria-labelledby="ht"><div class="section__head"><h2 id="ht">Hành trình chuẩn bị</h2></div>
     <div class="progress"><div class="progress__n">${p.pct}%</div><div><div class="bar" role="img" aria-label="Đã hoàn thành ${p.pct}% công việc"><i style="width:${p.pct}%;background:var(--forest)"></i></div><p class="fine">${p.done} trên ${p.total} đầu việc đã hoàn tất. Việc cha được tính theo tiến độ của các việc con.</p></div></div>
     <ul class="cats">${D.categoryProgress(d.tasks,d.categories).map(c=>`<li><span>${esc(c.name)}</span><span>${c.done}/${c.total}</span><div class="bar"><i style="width:${c.pct}%;background:var(--forest)"></i></div></li>`).join('')}</ul></section>
-  <section class="panel" aria-labelledby="hb"><div class="section__head"><h2 id="hb">Ngân sách</h2></div>
-    <p class="eyebrow">Dự kiến chi</p><p class="money">${esc(formatVNDShort(b.planned))}</p>
-    <div class="bar stack" role="img" aria-label="Đã trả ${formatVND(b.paid)}, còn phải trả ${formatVND(b.outstanding)}, chưa chốt ${formatVND(b.unbooked)}">
-      <i style="width:${pctOf(b.paid)}%;background:var(--forest)"></i><i style="width:${pctOf(b.outstanding)}%;background:var(--brass)"></i><i style="width:${pctOf(b.unbooked)}%;background:var(--line-strong)"></i></div>
-    <ul class="legend"><li><span class="sw" style="background:var(--forest)"></span>Đã thanh toán<b>${formatVND(b.paid)}</b></li>
-      <li><span class="sw" style="background:var(--brass)"></span>Đã chốt, còn phải trả<b>${formatVND(b.outstanding)}</b></li>
-      <li><span class="sw" style="background:var(--line-strong)"></span>Dự kiến, chưa chốt<b>${formatVND(b.unbooked)}</b></li>
-      <li><span></span>Nguồn thu dự kiến<b>${formatVND(b.income)}</b></li></ul>
-    <p class="fine">Số liệu dự kiến được tách riêng với chi phí thực tế. Trang Ngân sách chi tiết sẽ sớm ra mắt.</p></section>
+  <section class="panel" aria-labelledby="hb"><div class="section__head"><h2 id="hb">Ngân sách</h2><span class="eyebrow"><a class="section__link" href="#/ngan-sach">Chi tiết</a></span></div>
+    <p class="eyebrow">Dự chi toàn bộ</p><p class="money">${esc(formatVNDShort(b.planned))}</p>
+    <div class="bar stack" role="img" aria-label="Đã trả ${formatVND(b.paid)}, trả sau ${formatVND(b.debt)}, còn lại trong dự chi ${formatVND(Math.max(0, b.planned - b.chi))}">
+      <i style="width:${pctOf(b.paid)}%;background:var(--forest)"></i><i style="width:${pctOf(b.debt)}%;background:var(--brass)"></i><i style="width:${pctOf(Math.max(0, b.planned - b.chi))}%;background:var(--line-strong)"></i></div>
+    <ul class="legend"><li><span class="sw" style="background:var(--forest)"></span>Đã trả<b>${esc(formatVNDShort(b.paid))}</b></li>
+      <li><span class="sw" style="background:var(--brass)"></span>Trả sau<b>${esc(formatVNDShort(b.debt))}</b></li>
+      <li><span class="sw" style="background:var(--line-strong)"></span>Còn lại dự chi<b>${esc(formatVNDShort(Math.max(0, b.planned - b.chi)))}</b></li>
+      <li><span></span>Độ lệch<b>${esc(b.variance === 0 ? '0 ₫' : (b.variance > 0 ? '+' : '−') + formatVNDShort(Math.abs(b.variance)))}</b></li>
+      <li><span></span>Đã thu<b>${esc(formatVNDShort(b.thu))}</b></li></ul>
+    <p class="fine">Độ lệch = thực chi − dự chi. Thực chi ghi dần theo từng lần trả; khoản “trả sau” đã tính vào thực chi nhưng chưa ra tiền.</p></section>
   <section class="panel" aria-labelledby="hm"><div class="section__head"><h2 id="hm">Mốc quan trọng</h2></div>
     ${d.milestones.length ? `<ol class="miles">${miles}</ol>` : '<p>Chưa có mốc nào được đặt.</p>'}</section>
   </div>

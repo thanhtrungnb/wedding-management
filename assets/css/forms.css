@@ -1,5 +1,5 @@
 /* Điều khiển dùng chung: ô nhập, dropdown tùy biến, hộp thoại (sheet). */
-.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.sr{position:absolute;left:-999px;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .ico{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round;flex:none}
 .btn{gap:var(--s-2)} .btn--quiet{background:transparent;color:var(--ink)} .btn--quiet:hover{background:var(--paper-2)}
 .btn--sm{min-height:36px;padding:0 var(--s-3);font-size:var(--fs-sm)} .btn--danger{color:#8A2F1B;border-color:var(--line-strong)}
@@ -30,8 +30,9 @@ dialog.sheet{padding:0;border:1px solid var(--line-strong);background:var(--pape
 dialog.sheet::backdrop{background:rgba(31,42,36,.45)}
 dialog.sheet[open]{animation:pop-in var(--t-med) var(--ease)}
 @keyframes pop-in{from{opacity:0;transform:translateY(12px) scale(.98)}}
-.sheet__body{padding:var(--s-5) var(--s-5) calc(var(--s-6) + env(safe-area-inset-bottom))}
-.sheet__head{display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s-3)}
+.sheet__body{padding:0 var(--s-5) calc(var(--s-6) + env(safe-area-inset-bottom))}
+/* Head dính mép trên: nội dung dài cuộn xuống vẫn thấy nút X bên phải để đóng. */
+.sheet__head{position:sticky;top:0;z-index:3;display:flex;justify-content:space-between;align-items:flex-start;gap:var(--s-3);background:var(--paper);margin:0 calc(-1 * var(--s-5));padding:var(--s-5) var(--s-5) var(--s-2)}
 .sheet__title{font:400 1.8rem/1.15 var(--font-serif);margin-top:var(--s-1)}
 .sheet__x{min-width:var(--tap);min-height:var(--tap);background:none;border:0;font-size:1.7rem;line-height:1;margin:-8px -10px 0 0}
 .facts{margin:var(--s-5) 0 0}.facts>div{display:grid;grid-template-columns:6.5rem 1fr;gap:var(--s-3);padding:var(--s-3) 0;border-bottom:1px solid var(--line)}

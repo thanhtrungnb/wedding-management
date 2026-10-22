@@ -1,0 +1,62 @@
+/* Trang Ngân sách: dải tổng hợp, bảng master/detail, cấu hình danh mục ở Cài đặt.
+   Quy ước màu tiền: thu = xanh (forest), chi = đỏ đất (accent) — chỉ tô số tiền. */
+.t-green{color:var(--forest)}
+.t-red{color:var(--accent)}
+.t-warn{color:var(--warn)}
+.bstats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--s-3);margin-top:var(--s-6)}
+.bstat{background:var(--surface);border:var(--bw) solid var(--line);border-radius:var(--r-md);padding:var(--s-4)}
+.bstat__v{font:400 1.5rem/1.1 var(--font-serif);font-variant-numeric:tabular-nums;margin-top:var(--s-1);letter-spacing:-.01em;white-space:nowrap}
+/* Bảng: cuộn trong khung riêng để header dính mép trên khi cuộn. */
+.btable-bar{display:flex;justify-content:flex-end;margin-top:var(--s-5)}
+.btable-wrap{overflow:auto;max-height:calc(100dvh - 9rem);margin-top:var(--s-3);border:var(--bw) solid var(--line-strong);border-radius:var(--r-md);background:var(--surface)}
+.btable{width:100%;border-collapse:collapse;min-width:820px}
+.btable th,.btable td{padding:var(--s-3) var(--s-4);border-bottom:var(--bw) solid var(--line);font-size:var(--fs-sm);text-align:left;vertical-align:middle}
+.btable thead th{position:sticky;top:0;z-index:2;background:var(--paper-2);border-bottom:var(--bw) solid var(--line-strong);font-size:var(--fs-xs);text-transform:uppercase;letter-spacing:.06em;color:var(--ink-2);font-weight:600;white-space:nowrap}
+.btable tbody tr:last-child td,.btable tbody tr:last-child th{border-bottom:0}
+.btable__h-num,.btable .num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.btable .num i{font-style:italic;color:var(--ink-3)}
+/* Hàng master: nền nhạt, chữ đậm, tổng của nhóm — bấm để đóng/mở. */
+.brow--master{cursor:pointer}
+.brow--master th,.brow--master td{background:var(--paper-2);font-weight:600;border-bottom:var(--bw) solid var(--line-strong)}
+.brow--master:hover th,.brow--master:hover td{background:var(--line)}
+.brow--master th{border-top:var(--bw) solid var(--line-strong);font:600 var(--fs-sm) var(--font-sans);letter-spacing:.02em}
+.brow--master td.num i{font-style:italic;font-weight:400}
+.brow__chev{display:inline-flex;vertical-align:-3px;margin-right:var(--s-2);color:var(--ink-3);transform:rotate(90deg);transition:transform var(--t-fast) var(--ease)}
+.brow--master.is-collapsed .brow__chev{transform:rotate(0deg)}
+/* Rê chuột lên hàng nào thì hàng đó nổi màu. */
+.btable tbody .brow:not(.brow--master):hover td{background:var(--paper-2)}
+.brow__name{min-width:14rem}
+.brow__t{appearance:none;background:none;border:0;padding:0;font:inherit;font-weight:500;text-align:left;color:inherit;cursor:pointer}
+.brow__t:hover{text-decoration:underline;text-decoration-color:var(--accent);text-underline-offset:3px}
+.brow__note{display:block;color:var(--ink-3);font-size:var(--fs-xs);margin-top:1px}
+.brow--item .brow__t{font-weight:400}
+.brow__date{white-space:nowrap;color:var(--ink-3)}
+.bleap{font-variant-numeric:tabular-nums}
+.brow__act{white-space:nowrap;text-align:right}
+/* Nút icon: chỉ hiện khi rê chuột lên hàng; màn cảm ứng luôn hiện. */
+.ibtn{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;padding:0;background:transparent;border:0;border-radius:var(--r-sm);color:var(--ink-2);cursor:pointer}
+.ibtn .ico{width:16px;height:16px}
+.ibtn:hover{background:var(--paper-2);color:var(--ink)}
+.ibtn--danger:hover{background:var(--accent-soft);color:var(--accent)}
+.ibtn+.ibtn{margin-left:2px}
+.brow__act .ibtn{opacity:0;transition:opacity var(--t-fast) var(--ease)}
+.brow:hover .brow__act .ibtn,.brow__act .ibtn:focus-visible{opacity:1}
+@media (hover:none){.brow__act .ibtn{opacity:1}}
+/* Cấu hình danh mục ngân sách trong Cài đặt. */
+.bcfg__group{font:400 1.1rem/1.2 var(--font-serif);margin:var(--s-5) 0 var(--s-1)}
+.bcfg{list-style:none;margin:0;padding:0}
+.bcfg li{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:var(--s-1) var(--s-4);align-items:center;padding:var(--s-2) 0;border-bottom:var(--bw) solid var(--line);font-size:var(--fs-sm)}
+.bcfg li:last-child{border-bottom:0}
+.bcfg__n{font-weight:500}
+.bcfg__m{font-variant-numeric:tabular-nums;white-space:nowrap}
+.bcfg__d{color:var(--ink-3);white-space:nowrap}
+.bcfg__act{white-space:nowrap}
+.bcfg__act .btn+.btn{margin-left:var(--s-1)}
+.checkline{display:flex;align-items:center;gap:var(--s-3);min-height:var(--tap);cursor:pointer}
+.checkline .check{flex:none}
+@media (max-width:760px){
+  .bstats{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .btable{min-width:760px}
+  .bcfg li{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"n m" "n d" "n act"}
+  .bcfg__n{grid-area:n}.bcfg__m{grid-area:m;justify-self:end}.bcfg__d{grid-area:d;justify-self:end}.bcfg__act{grid-area:act;justify-self:end}
+}

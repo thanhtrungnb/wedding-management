@@ -4,7 +4,7 @@ import { formatSyncTime } from '../utils/format.js';
 export const ROUTES = [
   { path: '/tong-quan', label: 'Tổng quan', short: 'Tổng quan', icon: 'home' },
   { path: '/viec', label: 'Việc cần làm', short: 'Việc làm', icon: 'list' },
-  { path: '/ngan-sach', label: 'Ngân sách', short: 'Ngân sách', icon: 'coin', soon: true },
+  { path: '/ngan-sach', label: 'Ngân sách', short: 'Ngân sách', icon: 'coin' },
   { path: '/lich-trinh', label: 'Lịch trình', short: 'Lịch trình', icon: 'cal', soon: true },
   { path: '/cai-dat', label: 'Cài đặt', short: 'Cài đặt', icon: 'sliders' },
 ];
