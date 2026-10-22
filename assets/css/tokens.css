@@ -12,7 +12,7 @@
   --fs-xl:clamp(1.6rem,1.2rem + 1.6vw,2.4rem); --fs-hero:clamp(2.1rem,1.2rem + 3.6vw,3.9rem);
   --lh-tight:1.1; --lh-body:1.55;
   --s-1:.25rem; --s-2:.5rem; --s-3:.75rem; --s-4:1rem; --s-5:1.5rem; --s-6:2rem; --s-7:3rem; --s-8:4.5rem;
-  --r-sm:4px; --r-md:8px; --bw:1px;
+  --r-sm:4px; --r-md:8px; --r-lg:16px; --bw:1px;
   --side-w:248px; --content-max:1080px; --tap:44px;
   --focus:0 0 0 2px var(--paper),0 0 0 4px var(--forest);
   --t-fast:140ms; --t-med:260ms; --ease:cubic-bezier(.2,.7,.2,1);
