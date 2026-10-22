@@ -73,8 +73,11 @@ export function mount(el, signal) {
   }, { signal });
   el.addEventListener('click', async e => {
     if (e.target.closest('[data-export]')) { exportJSON(getData()); toast('Đã tạo tệp sao lưu.'); }
-    if (e.target.closest('[data-blank]') && confirm('Xóa toàn bộ dữ liệu hiện tại và bắt đầu sổ trống?')) { startBlank(); el.innerHTML = `<div class="setpage">${view()}</div>`; toast('Đã tạo sổ trống.'); }
-    if (e.target.closest('[data-sample]') && confirm('Thay dữ liệu hiện tại bằng dữ liệu mẫu?')) { restoreSample(); el.innerHTML = `<div class="setpage">${view()}</div>`; toast('Đã khôi phục dữ liệu mẫu.'); }
+    if (e.target.closest('[data-blank]') && confirm('Xóa toàn bộ dữ liệu hiện tại và bắt đầu sổ trống?')) { await startBlank(); el.innerHTML = `<div class="setpage">${view()}</div>`; toast('Đã tạo sổ trống.'); }
+    if (e.target.closest('[data-sample]') && confirm('Thay dữ liệu hiện tại bằng dữ liệu mẫu?')) {
+      try { await restoreSample(); el.innerHTML = `<div class="setpage">${view()}</div>`; toast('Đã khôi phục dữ liệu mẫu.'); }
+      catch { toast('Không đọc được tệp dữ liệu mẫu.'); }
+    }
     if (e.target.closest('[data-guide]')) { openGuide(); return; }
     const btn = e.target.closest('[data-push],[data-pull]'); if (!btn) return;
     setSyncUrl(el.querySelector('#sync-url').value);

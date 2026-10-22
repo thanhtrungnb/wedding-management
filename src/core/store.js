@@ -1,10 +1,11 @@
 /* Trạng thái dùng chung + lưu trữ + hoàn tác một bước. */
 import * as repo from '../repositories/appRepository.js';
 import { toast } from './toast.js';
-const loaded = repo.load();
+const loaded = await repo.load(); // top-level await: đọc khuôn dữ liệu mẫu là bất đồng bộ
 let data = loaded.data, snapshot = null;
 const subs = new Set();
 export const recovered = loaded.recovered;
+export const sampleFailed = loaded.sampleFailed;
 export const getData = () => data;
 const notify = () => subs.forEach(f => f());
 /** Đăng ký lắng nghe; tự hủy khi `signal` bị abort (đổi trang). */
@@ -21,5 +22,5 @@ export function commit(mutator, { undoable = false } = {}) {
 export function undo() { if (!snapshot) return false; data = snapshot; snapshot = null; persist(); notify(); return true; }
 export function replaceAll(next) { data = next; snapshot = null; persist(); notify(); }
 export function resetAll(next) { data = next; snapshot = null; persist(); notify(); }
-export const startBlank = () => resetAll(repo.blank());
-export const restoreSample = () => resetAll(repo.reset());
+export const startBlank = async () => resetAll(await repo.blank());
+export const restoreSample = async () => resetAll(await repo.reset());

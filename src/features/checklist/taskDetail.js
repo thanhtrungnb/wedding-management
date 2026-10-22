@@ -27,11 +27,12 @@ function body(id) {
     ${t.tags?.length ? `<div><dt>Thẻ</dt><dd>${t.tags.map(g => `<span class="tag tag--plain">${esc(g)}</span>`).join(' ')}</dd></div>` : ''}
   </dl>
   ${t.note ? `<p class="sheet__note">${esc(t.note)}</p>` : ''}
-  ${kids.length ? `<h3 class="sheet__sub">Việc con</h3><ul class="tasks">${kids.map(k => `<li class="task ${k.done ? 'is-done' : ''}"><label class="hit"><input class="check" type="checkbox" data-id="${esc(k.id)}" ${k.done ? 'checked' : ''} aria-label="Hoàn thành: ${esc(k.title)}"></label><div class="task__body"><span class="task__t">${esc(k.title)}</span><div class="task__m">${dueTag(k, today)}<span>${esc(ownerLabel(k.owner))}</span></div></div></li>`).join('')}</ul>` : ''}
+  ${kids.length ? `<h3 class="sheet__sub">Việc con</h3><ul class="tasks">${kids.map(k => `<li class="task ${k.done ? 'is-done' : ''}"><span class="task__lead" aria-hidden="true"></span><label class="hit"><input class="check" type="checkbox" data-id="${esc(k.id)}" ${k.done ? 'checked' : ''} aria-label="Hoàn thành: ${esc(k.title)}"></label><div class="task__body"><span class="task__t">${esc(k.title)}</span><div class="task__m">${dueTag(k, today)}<span>${esc(ownerLabel(k.owner))}</span></div></div></li>`).join('')}</ul>` : ''}
   <footer class="sheet__foot">
     <button type="button" class="btn" data-edit>Sửa</button>
     ${!kids.length && !par ? '' : ''}${!t.parentId ? '<button type="button" class="btn btn--quiet" data-addkid>Thêm việc con</button>' : ''}
-    ${!kids.length ? `<button type="button" class="btn btn--quiet" data-toggle-done>${t.done ? 'Mở lại việc' : 'Đánh dấu đã xong'}</button>` : ''}
+    ${!t.parentId ? '<button type="button" class="btn btn--quiet" data-addkid>Thêm việc con</button>' : ''}
+    <button type="button" class="btn btn--quiet" data-toggle-done>${t.done ? 'Mở lại việc' : 'Đánh dấu đã xong'}</button>
     <button type="button" class="btn btn--quiet btn--danger" data-del>Xóa</button></footer></article>`;
 }
 export function openTaskDetail(id) {

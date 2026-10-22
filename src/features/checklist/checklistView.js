@@ -10,9 +10,10 @@ import { openTaskDialog } from './taskDialog.js';
 import { openTaskDetail } from './taskDetail.js';
 import { esc, todayStart } from '../../utils/format.js';
 
-/* Trạng thái giao diện giữ lại khi chuyển trang: bộ lọc và các việc cha đang mở (mặc định: đóng). */
+/* Trạng thái giao diện giữ lại khi chuyển trang: bộ lọc, các việc cha đang mở (mặc định: đóng) và các nhóm đang thu gọn (mặc định: mở). */
 let filters = { ...DEFAULT_FILTERS };
 const opened = new Set();
+const collapsed = new Set();
 
 const OWNER_OPTS = [['all', 'Tất cả'], ['bride', 'Cô dâu'], ['groom', 'Chú rể'], ['both', 'Cả hai'], ['none', 'Chưa phân công']];
 const STATUS_OPTS = [['all', 'Tất cả'], ['open', 'Đang làm'], ['done', 'Đã xong'], ['overdue', 'Quá hạn']];
@@ -30,7 +31,7 @@ const shell = () => `<header class="page-head"><div><h1 class="page-title">Việ
 
 function keyOf(el) {
   const d = el?.dataset; if (!d) return null;
-  return d.toggle ? `[data-toggle="${d.toggle}"]` : d.open ? `[data-open="${d.open}"]` : d.id ? `.check[data-id="${d.id}"]` : null;
+  return d.toggle ? `[data-toggle="${d.toggle}"]` : d.open ? `[data-open="${d.open}"]` : d.group ? `[data-group="${d.group}"]` : d.id ? `.check[data-id="${d.id}"]` : null;
 }
 function renderList(el) {
   const data = getData(), today = todayStart(), key = keyOf(document.activeElement);
@@ -40,8 +41,8 @@ function renderList(el) {
   let html = '';
   data.categories.forEach(c => {
     const rows = entries.filter(e => e.task.categoryId === c.id); if (!rows.length) return;
-    const cp = progress(data.tasks.filter(t => t.categoryId === c.id));
-    html += `<section class="group" aria-label="${esc(c.name)}"><h2 class="group__t">${esc(c.name)}<span>${cp.done}/${cp.total} xong</span></h2><ul class="tasks">${rows.map(e => {
+    const cp = progress(data.tasks.filter(t => t.categoryId === c.id)), open = !collapsed.has(c.id);
+    html += `<section class="group" aria-label="${esc(c.name)}"><h2 class="group__t"><button type="button" class="twist ${open ? 'is-open' : ''}" data-group="${esc(c.id)}" aria-expanded="${open}" aria-controls="grp-${esc(c.id)}" aria-label="${open ? 'Thu gọn' : 'Mở'} nhóm “${esc(c.name)}”">${svg('chev')}</button><span class="group__n">${esc(c.name)}</span><span class="group__c">${cp.done}/${cp.total} xong</span></h2><ul class="tasks" id="grp-${esc(c.id)}" ${open ? '' : 'hidden'}>${rows.map(e => {
       const isParent = e.children.length > 0, open = isParent && (opened.has(e.task.id) || e.viaKids);
       return taskRow(e.task, { tasks: data.tasks, categories: data.categories, today, kids: isParent ? e.children : null, open, showTags: true });
     }).join('')}</ul></section>`;
@@ -64,7 +65,13 @@ export function mount(el, signal) {
   }, { signal });
   el.addEventListener('click', e => {
     const tg = e.target.closest('[data-toggle]'); if (tg) { const id = tg.dataset.toggle; opened.has(id) ? opened.delete(id) : opened.add(id); return render(); }
+    const gp = e.target.closest('[data-group]'); if (gp) { const id = gp.dataset.group; collapsed.has(id) ? collapsed.delete(id) : collapsed.add(id); return render(); }
     const op = e.target.closest('[data-open]'); if (op) return openTaskDetail(op.dataset.open);
+    /* Click vào thân dòng việc cha (tránh nút/tick/link) thì đóng/mở việc con — hit target to hơn nút xoay. */
+    const li = e.target.closest('li.task');
+    if (li && li.classList.contains('is-parent') && !e.target.closest('button, a, label, input')) {
+      const id = li.dataset.row; opened.has(id) ? opened.delete(id) : opened.add(id); return render();
+    }
     if (e.target.closest('[data-add]')) return openTaskDialog();
     if (e.target.closest('[data-clear]')) {
       filters = { ...DEFAULT_FILTERS }; el.querySelector('#q').value = '';
