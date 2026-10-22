@@ -11,7 +11,7 @@ export function dueTag(t, today) {
   if (n <= 7) return `<span class="tag tag--urgent">Còn ${n} ngày</span>`;
   return `<span class="tag">Hạn ${formatDateShort(t.due)}</span>`;
 }
-/** ctx: { tasks, categories, today, kids?, open?, showCat?, showParent? } */
+/** ctx: { tasks, categories, today, kids?, open?, showCat?, showParent?, to? } — `to` vẽ link "Xem chi tiết" trỏ sang trang việc (dùng ở Tổng quan). */
 export function taskRow(t, ctx) {
   const { tasks, categories, today, kids = null, open = false } = ctx;
   const cat = categories.find(c => c.id === t.categoryId), par = ctx.showParent && t.parentId ? tasks.find(x => x.id === t.parentId) : null;
@@ -23,7 +23,8 @@ export function taskRow(t, ctx) {
   const meta = [kids ? count : '', t.done ? '' : dueTag(t, today), `<span>${esc(ownerLabel(t.owner))}</span>`,
     ctx.showCat && cat ? `<span>· ${esc(cat.name)}</span>` : '', par ? `<span>· thuộc “${esc(par.title)}”</span>` : '',
     ...(ctx.showTags ? (t.tags || []).map(g => `<span class="tag tag--plain">${esc(g)}</span>`) : [])].join('');
-  return `<li class="task ${t.done ? 'is-done' : ''} ${kids ? 'is-parent' : ''}">${lead}
-    <div class="task__body"><button type="button" class="task__t" data-open="${esc(t.id)}">${esc(t.title)}</button><div class="task__m">${meta}</div></div>
+  const go = !kids && ctx.to ? `<a class="task__go" href="#${esc(ctx.to)}">Xem chi tiết ${svg('chev')}</a>` : '';
+  return `<li class="task ${t.done ? 'is-done' : ''} ${kids ? 'is-parent' : ''} ${go ? 'is-go' : ''}">${lead}
+    <div class="task__body"><button type="button" class="task__t" data-open="${esc(t.id)}">${esc(t.title)}</button><div class="task__m">${meta}</div></div>${go}
     ${kids ? `<ul class="task__kids" id="kids-${esc(t.id)}" ${open ? '' : 'hidden'}>${kids.map(k => taskRow(k, { ...ctx, kids: null, showCat: false })).join('')}</ul>` : ''}</li>`;
 }

@@ -12,3 +12,5 @@ export const todayStart = () => { const d=new Date(); return new Date(d.getFullY
 /** Số ngày từ `from` đến ngày `s`; null nếu ngày không hợp lệ; âm = đã qua. */
 export const daysBetween = (s, from = todayStart()) => { const d=parseDate(s); return d?Math.round((d-from)/864e5):null; };
 export const esc = v => String(v ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+/** Nhãn thời gian đồng bộ dùng chung cho thanh bên và trang Cài đặt. */
+export const formatSyncTime = d => d ? `Đồng bộ lần cuối: ${d.toLocaleString('vi-VN')}` : 'Chưa từng đồng bộ.';

@@ -1,11 +1,16 @@
-/* Trang Cài đặt: các thẻ nhóm gọn — tiêu đề + một dòng mô tả + hành động. */
-.set{display:flex;flex-direction:column;gap:var(--s-5);max-width:46rem}
-.set__card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);padding:var(--s-5)}
-.set__intro{display:flex;justify-content:space-between;align-items:baseline;gap:var(--s-4);flex-wrap:wrap}
-.set__intro h2{font:400 1.4rem/1.2 var(--font-serif)}
+/* Trang Cài đặt: lưới thẻ trải rộng theo chiều ngang — mỗi thẻ một nhóm, chip icon làm điểm nhấn. */
+.setpage{padding-inline:var(--s-6)}
+.set{display:grid;grid-template-columns:repeat(auto-fit,minmax(24rem,1fr));gap:var(--s-5);align-items:start;margin-top:var(--s-6)}
+.set__card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:var(--s-6)}
+.set__intro{display:flex;flex-direction:column;gap:var(--s-2);margin-bottom:var(--s-4)}
+.set__ttl{display:flex;align-items:center;gap:var(--s-3)}
+.set__ttl h2{font:400 1.4rem/1.2 var(--font-serif)}
+.set__ico{display:grid;place-items:center;width:38px;height:38px;flex:none;border-radius:var(--r-md);background:var(--accent-soft);color:var(--accent)}
+.set__ico svg{width:19px;height:19px}
 .set__intro p{font-size:var(--fs-sm);color:var(--ink-3)}
 .set__row{display:flex;flex-wrap:wrap;gap:var(--s-2);margin-top:var(--s-4)}
 .set__card--danger{border-color:#C77B62}
+.set__card--danger .set__ico{background:#F3DDD4;color:#C77B62}
 /* Hàng 3 ô nhập cùng lúc — cho gọn form thông tin */
 .row3{display:grid;grid-template-columns:1fr 1fr minmax(0,11rem);gap:0 var(--s-4)}
 /* Các bước trong popup hướng dẫn kết nối */
@@ -14,4 +19,4 @@
 .guide code{background:var(--paper-2);padding:0 .3rem;border-radius:var(--r-sm);font-size:.8em}
 .guide .set__row{margin-top:var(--s-2)}
 .btn:disabled{opacity:.55;cursor:not-allowed}
-@media (max-width:760px){.row3{grid-template-columns:1fr}}
+@media (max-width:760px){.row3{grid-template-columns:1fr}.setpage{padding-inline:var(--s-4)}}

@@ -19,14 +19,13 @@ const STATUS_OPTS = [['all', 'Tất cả'], ['open', 'Đang làm'], ['done', 'Đ
 const SORT_OPTS = [['due', 'Hạn gần nhất'], ['priority', 'Ưu tiên cao trước'], ['title', 'Tên A–Z']];
 const o = a => a.map(([value, label]) => ({ value, label }));
 
-const shell = () => `<header class="page-head"><div><p class="eyebrow">Chuẩn bị cưới</p><h1 class="page-title">Việc cần làm</h1><p class="lede" id="summary"></p></div>
-  <button type="button" class="btn" data-add>${svg('plus')} Thêm việc</button></header>
+const shell = () => `<header class="page-head"><div><h1 class="page-title">Việc cần làm</h1><p class="lede" id="summary"></p></div>
+  <div class="page-head__actions"><button type="button" class="btn btn--quiet btn--sm" data-clear hidden>Xóa bộ lọc</button><button type="button" class="btn" data-add>${svg('plus')} Thêm việc</button></div></header>
   <div class="toolbar" role="search"><label class="search">${svg('search')}<span class="sr">Tìm việc</span>
     <input id="q" type="search" class="input" placeholder="Tìm theo tên, ghi chú, thẻ" autocomplete="off" value="${esc(filters.q)}"></label>
     ${dropdown({ name: 'f_owner', label: 'Phụ trách', options: o(OWNER_OPTS), value: filters.owner })}
     ${dropdown({ name: 'f_status', label: 'Trạng thái', options: o(STATUS_OPTS), value: filters.status })}
-    ${dropdown({ name: 'f_sort', label: 'Sắp xếp', options: o(SORT_OPTS), value: filters.sort })}
-    <button type="button" class="btn btn--quiet btn--sm" data-clear hidden>Xóa bộ lọc</button></div>
+    ${dropdown({ name: 'f_sort', label: 'Sắp xếp', options: o(SORT_OPTS), value: filters.sort })}</div>
   <div id="list"></div>`;
 
 function keyOf(el) {
@@ -54,7 +53,7 @@ function renderList(el) {
   if (key) el.querySelector(key)?.focus();
 }
 export function mount(el, signal) {
-  el.innerHTML = shell(); const render = () => renderList(el); render();
+  el.innerHTML = `<div class="wrap">${shell()}</div>`; const render = () => renderList(el); render();
   bindDropdowns(el.querySelector('.toolbar'), signal, (name, v) => { filters[name.slice(2)] = v; render(); });
   onChange(render, signal);
   el.addEventListener('input', e => { if (e.target.id === 'q') { filters.q = e.target.value; render(); } }, { signal });

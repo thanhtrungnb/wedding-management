@@ -4,9 +4,9 @@ import { saveProfile } from '../../services/profileService.js';
 import { exportJSON, readImport } from '../../storage/backup.js';
 import { getSyncUrl, setSyncUrl, getLastSync, pull, push } from '../../storage/remoteStore.js';
 import { openSheet } from '../../ui/sheet.js';
-import { esc } from '../../utils/format.js';
-
-const fmtSync = d => d ? `Đồng bộ lần cuối: ${d.toLocaleString('vi-VN')}` : 'Chưa từng đồng bộ.';
+import { svg } from '../../ui/icons.js';
+import { updateSyncNote } from '../../core/nav.js';
+import { esc, formatSyncTime } from '../../utils/format.js';
 /** Clipboard API cần ngữ cảnh bảo mật (https/localhost) — có fallback cho http thường. */
 async function copyText(t) {
   try { await navigator.clipboard.writeText(t); return true; }
@@ -42,30 +42,30 @@ function openGuide() {
 
 function view() {
   const d = getData();
-  return `<header class="page-head"><div><p class="eyebrow">Cài đặt</p><h1 class="page-title">Thông tin &amp; dữ liệu</h1></div></header>
+  return `<header class="page-head"><div><h1 class="page-title">Thông tin &amp; dữ liệu</h1></div></header>
   <div class="set">
-  <section class="set__card" aria-labelledby="st-profile"><div class="set__intro"><h2 id="st-profile">Thông tin đám cưới</h2><p>Dùng cho trang tổng quan và đếm ngược ngày cưới.</p></div>
+  <section class="set__card" aria-labelledby="st-profile"><div class="set__intro"><div class="set__ttl"><span class="set__ico">${svg('user')}</span><h2 id="st-profile">Thông tin đám cưới</h2></div><p>Dùng cho trang tổng quan và đếm ngược ngày cưới.</p></div>
     <form id="profile" class="stack-form" novalidate>
       <div class="row3"><div class="field"><label class="field__l" for="p-bride">Cô dâu</label><input id="p-bride" name="bride" class="input" maxlength="40" value="${esc(d.couple.bride)}"></div>
       <div class="field"><label class="field__l" for="p-groom">Chú rể</label><input id="p-groom" name="groom" class="input" maxlength="40" value="${esc(d.couple.groom)}"></div>
       <div class="field"><label class="field__l" for="p-date">Ngày cưới</label><input id="p-date" name="weddingDate" type="date" class="input" value="${esc(d.weddingDate)}"><p class="field__err" data-err="weddingDate" role="alert"></p></div></div>
       <div class="set__row"><button class="btn btn--sm" type="submit">Lưu thông tin</button></div></form></section>
-  <section class="set__card" aria-labelledby="st-backup"><div class="set__intro"><h2 id="st-backup">Sao lưu</h2><p>Dữ liệu nằm trên trình duyệt này — nên xuất bản sao định kỳ.</p></div>
+  <section class="set__card" aria-labelledby="st-backup"><div class="set__intro"><div class="set__ttl"><span class="set__ico">${svg('save')}</span><h2 id="st-backup">Sao lưu</h2></div><p>Dữ liệu nằm trên trình duyệt này — nên xuất bản sao định kỳ.</p></div>
     <div class="set__row"><button type="button" class="btn btn--sm" data-export>Xuất tệp .json</button>
     <label class="btn btn--sm btn--quiet filebtn">Nhập từ tệp<input type="file" accept="application/json,.json" data-import hidden></label></div>
     <p id="import-msg" role="status" class="fine"></p></section>
-  <section class="set__card" aria-labelledby="st-sync"><div class="set__intro"><h2 id="st-sync">Đồng bộ Google Sheet</h2><p>Gửi bản sao lên Google Sheet để dùng trên nhiều thiết bị.</p></div>
+  <section class="set__card" aria-labelledby="st-sync"><div class="set__intro"><div class="set__ttl"><span class="set__ico">${svg('sync')}</span><h2 id="st-sync">Đồng bộ Google Sheet</h2></div><p>Gửi bản sao lên Google Sheet để dùng trên nhiều thiết bị.</p></div>
     <div class="field"><label class="field__l" for="sync-url">Địa chỉ Web App (kết thúc bằng /exec)</label>
     <input id="sync-url" class="input" type="url" spellcheck="false" placeholder="https://script.google.com/macros/s/…/exec" value="${esc(getSyncUrl())}"></div>
     <div class="set__row"><button type="button" class="btn btn--sm" data-push>Gửi lên Sheet</button><button type="button" class="btn btn--sm btn--quiet" data-pull>Tải từ Sheet</button>
     <button type="button" class="btn btn--sm btn--quiet" data-guide>Hướng dẫn kết nối</button></div>
-    <p id="sync-status" role="status" class="fine">${esc(fmtSync(getLastSync()))}</p></section>
-  <section class="set__card set__card--danger" aria-labelledby="st-reset"><div class="set__intro"><h2 id="st-reset">Bắt đầu lại</h2><p>Xóa dữ liệu hiện tại — nên xuất bản sao lưu trước.</p></div>
+    <p id="sync-status" role="status" class="fine">${esc(formatSyncTime(getLastSync()))}</p></section>
+  <section class="set__card set__card--danger" aria-labelledby="st-reset"><div class="set__intro"><div class="set__ttl"><span class="set__ico">${svg('warn')}</span><h2 id="st-reset">Bắt đầu lại</h2></div><p>Xóa dữ liệu hiện tại — nên xuất bản sao lưu trước.</p></div>
     <div class="set__row"><button type="button" class="btn btn--sm btn--quiet" data-blank>Sổ trống</button><button type="button" class="btn btn--sm btn--quiet" data-sample>Dữ liệu mẫu</button></div></section>
   </div>`;
 }
 export function mount(el, signal) {
-  el.innerHTML = view();
+  el.innerHTML = `<div class="setpage">${view()}</div>`;
   el.addEventListener('submit', e => {
     e.preventDefault(); const form = e.target;
     const r = commit(d => saveProfile(d, Object.fromEntries(new FormData(form))));
@@ -73,8 +73,8 @@ export function mount(el, signal) {
   }, { signal });
   el.addEventListener('click', async e => {
     if (e.target.closest('[data-export]')) { exportJSON(getData()); toast('Đã tạo tệp sao lưu.'); }
-    if (e.target.closest('[data-blank]') && confirm('Xóa toàn bộ dữ liệu hiện tại và bắt đầu sổ trống?')) { startBlank(); el.innerHTML = view(); toast('Đã tạo sổ trống.'); }
-    if (e.target.closest('[data-sample]') && confirm('Thay dữ liệu hiện tại bằng dữ liệu mẫu?')) { restoreSample(); el.innerHTML = view(); toast('Đã khôi phục dữ liệu mẫu.'); }
+    if (e.target.closest('[data-blank]') && confirm('Xóa toàn bộ dữ liệu hiện tại và bắt đầu sổ trống?')) { startBlank(); el.innerHTML = `<div class="setpage">${view()}</div>`; toast('Đã tạo sổ trống.'); }
+    if (e.target.closest('[data-sample]') && confirm('Thay dữ liệu hiện tại bằng dữ liệu mẫu?')) { restoreSample(); el.innerHTML = `<div class="setpage">${view()}</div>`; toast('Đã khôi phục dữ liệu mẫu.'); }
     if (e.target.closest('[data-guide]')) { openGuide(); return; }
     const btn = e.target.closest('[data-push],[data-pull]'); if (!btn) return;
     setSyncUrl(el.querySelector('#sync-url').value);
@@ -84,15 +84,15 @@ export function mount(el, signal) {
     const r = isPush ? await push(getData()) : await pull();
     el.querySelectorAll('[data-push],[data-pull]').forEach(b => b.disabled = false);
     if (!r.ok) { st.textContent = r.errors[0]; return; }
-    if (isPush) { st.textContent = fmtSync(new Date(r.updatedAt)); toast('Đã gửi dữ liệu lên Google Sheet.'); return; }
-    if (confirm(`Thay dữ liệu trên máy bằng bản trên Sheet (${r.data.tasks.length} việc)?`)) { replaceAll(r.data); el.innerHTML = view(); toast('Đã tải dữ liệu từ Google Sheet.'); }
-    else st.textContent = fmtSync(getLastSync());
+    if (isPush) { st.textContent = formatSyncTime(new Date(r.updatedAt)); updateSyncNote(); toast('Đã gửi dữ liệu lên Google Sheet.'); return; }
+    if (confirm(`Thay dữ liệu trên máy bằng bản trên Sheet (${r.data.tasks.length} việc)?`)) { replaceAll(r.data); el.innerHTML = `<div class="setpage">${view()}</div>`; updateSyncNote(); toast('Đã tải dữ liệu từ Google Sheet.'); }
+    else st.textContent = formatSyncTime(getLastSync());
   }, { signal });
   el.addEventListener('change', async e => {
     if (e.target.id === 'sync-url') { setSyncUrl(e.target.value); toast(e.target.value.trim() ? 'Đã lưu địa chỉ đồng bộ.' : 'Đã xóa địa chỉ đồng bộ.'); return; }
     const f = e.target.closest('[data-import]')?.files?.[0]; if (!f) return;
     const msg = el.querySelector('#import-msg'), r = await readImport(f); e.target.value = '';
     if (!r.ok) { msg.innerHTML = `Không thể nhập tệp này, dữ liệu hiện tại được giữ nguyên:<br>${r.errors.map(esc).join('<br>')}`; return; }
-    if (confirm(`Thay dữ liệu hiện tại bằng tệp này (${r.data.tasks.length} việc)?`)) { replaceAll(r.data); el.innerHTML = view(); toast('Đã nhập dữ liệu từ tệp.'); }
+    if (confirm(`Thay dữ liệu hiện tại bằng tệp này (${r.data.tasks.length} việc)?`)) { replaceAll(r.data); el.innerHTML = `<div class="setpage">${view()}</div>`; toast('Đã nhập dữ liệu từ tệp.'); }
   }, { signal });
 }
