@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ảnh album cưới 3">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F7EDDA"/>
+      <stop offset="1" stop-color="#EBD9B6"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".45" r=".6">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".5"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <g id="sprig">
+      <path d="M0 0 C 30 -20 70 -35 130 -42" fill="none" stroke="#B9975B" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+      <ellipse cx="30" cy="-18" rx="16" ry="5.5" fill="#B9975B" opacity=".45" transform="rotate(-38 30 -18)"/>
+      <ellipse cx="34" cy="-14" rx="16" ry="5.5" fill="#B9975B" opacity=".3" transform="rotate(142 34 -14)"/>
+      <ellipse cx="58" cy="-27" rx="17" ry="6" fill="#B9975B" opacity=".45" transform="rotate(-32 58 -27)"/>
+      <ellipse cx="62" cy="-23" rx="17" ry="6" fill="#B9975B" opacity=".3" transform="rotate(148 62 -23)"/>
+      <ellipse cx="90" cy="-35" rx="16" ry="5.5" fill="#B9975B" opacity=".45" transform="rotate(-28 90 -35)"/>
+      <ellipse cx="94" cy="-31" rx="16" ry="5.5" fill="#B9975B" opacity=".3" transform="rotate(152 94 -31)"/>
+      <circle cx="130" cy="-42" r="6" fill="#B9975B" opacity=".6"/>
+    </g>
+  </defs>
+  <rect width="1200" height="700" fill="url(#bg)"/>
+  <rect width="1200" height="700" fill="url(#glow)"/>
+  <use href="#sprig" transform="translate(30 690) rotate(-12) scale(2)"/>
+  <use href="#sprig" transform="translate(1170 700) rotate(-76) scale(2)"/>
+  <use href="#sprig" transform="translate(600 -10) rotate(96) scale(1.4)" opacity=".6"/>
+  <circle cx="980" cy="140" r="46" fill="#B9975B" opacity=".08"/>
+  <circle cx="240" cy="150" r="28" fill="#B9975B" opacity=".1"/>
+  <circle cx="1060" cy="540" r="34" fill="#B9975B" opacity=".07"/>
+  <circle cx="180" cy="520" r="20" fill="#B9975B" opacity=".12"/>
+</svg>
