@@ -5,6 +5,8 @@ const loaders = {
   '/viec': () => import('../features/checklist/checklistView.js'),
   '/ngan-sach': () => import('../features/budget/budgetView.js'),
   '/lich-trinh': () => import('../features/schedule/scheduleView.js'),
+  '/thiep': () => import('../features/invitations/invitationView.js'),
+  '/khach-moi': () => import('../features/guests/guestView.js'),
   '/cai-dat': () => import('../features/settings/settingsView.js'),
 };
 let ctrl, first = true;

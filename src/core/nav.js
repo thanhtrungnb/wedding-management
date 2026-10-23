@@ -6,6 +6,8 @@ export const ROUTES = [
   { path: '/viec', label: 'Việc cần làm', short: 'Việc làm', icon: 'list' },
   { path: '/ngan-sach', label: 'Ngân sách', short: 'Ngân sách', icon: 'coin' },
   { path: '/lich-trinh', label: 'Lịch trình', short: 'Lịch trình', icon: 'cal' },
+  { path: '/thiep', label: 'Thiệp', short: 'Thiệp', icon: 'heart' },
+  { path: '/khach-moi', label: 'Khách mời', short: 'Khách mời', icon: 'user' },
   { path: '/cai-dat', label: 'Cài đặt', short: 'Cài đặt', icon: 'sliders' },
 ];
 const item = (r, active, cls, text) => r.soon
