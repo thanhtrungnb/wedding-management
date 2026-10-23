@@ -17,7 +17,7 @@ const showErrors = (form, errors) => {
 const itemOptions = d => d.categories.flatMap(c => d.budget.items.filter(x => x.categoryId === c.id).map(x => ({ value: x.id, label: `${c.name} — ${x.name}` })));
 const typeOptions = () => Object.entries(ITEM_TYPES).map(([value, label]) => ({ value, label }));
 
-/** Sửa khoản (dùng cho cả bảng Ngân sách và Cài đặt). Không còn "thêm" ở đây — khoản mới tạo trong Cài đặt. */
+/** Sửa khoản trong bảng Ngân sách. Không có "thêm" ở đây — xem openNewItemDialog bên dưới. */
 export function openItemDialog({ id } = {}) {
   const d = getData(), it = id ? d.budget.items.find(x => x.id === id) : null;
   if (!it) return;
@@ -43,7 +43,7 @@ export function openItemDialog({ id } = {}) {
   } });
 }
 
-/** Thêm khoản mới — vào từ Cài đặt (nơi cấu hình danh mục ngân sách). */
+/** Thêm khoản mới — vào từ nút "Thêm khoản" ở trang Ngân sách. */
 export function openNewItemDialog() {
   const d = getData();
   const html = `<form class="sheet__body" novalidate>
@@ -74,7 +74,7 @@ export function openRecordDialog({ itemId = '', id = '' } = {}) {
   const rec = id ? d.budget.records.find(x => x.id === id) : null;
   if (id && !rec) return;
   const opts = itemOptions(d);
-  if (!opts.length) return toast('Chưa có khoản nào — hãy thêm khoản trong Cài đặt trước.');
+  if (!opts.length) return toast('Chưa có khoản nào — hãy bấm “Thêm khoản” trước.');
   const first = d.budget.items.find(x => x.id === (rec?.itemId || itemId || opts[0].value));
   const cat = d.categories.find(c => c.id === first?.categoryId);
   const itemField = rec
