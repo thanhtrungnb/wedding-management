@@ -19,4 +19,9 @@
 .guide code{background:var(--paper-2);padding:0 .3rem;border-radius:var(--r-sm);font-size:.8em}
 .guide .set__row{margin-top:var(--s-2)}
 .btn:disabled{opacity:.55;cursor:not-allowed}
+/* Danh sách hạng mục — dữ liệu gốc, mỗi hàng chỉ có tên và thao tác */
+.catlist{list-style:none;margin:0;padding:0}
+.catlist li{display:flex;align-items:center;justify-content:space-between;gap:var(--s-3);padding:var(--s-2) 0;border-bottom:var(--bw) solid var(--line);font-size:var(--fs-sm)}
+.catlist li:last-child{border-bottom:0}
+.catlist__n{font-weight:500}
 @media (max-width:760px){.row3{grid-template-columns:1fr}.setpage{padding-inline:var(--s-4)}}

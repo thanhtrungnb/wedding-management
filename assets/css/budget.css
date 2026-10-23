@@ -1,4 +1,4 @@
-/* Trang Ngân sách: dải tổng hợp, bảng master/detail, cấu hình danh mục ở Cài đặt.
+/* Trang Ngân sách: dải tổng hợp, bảng master/detail, khoản và ghi chép quản lý ngay trong trang.
    Quy ước màu tiền: thu = xanh (forest), chi = đỏ đất (accent) — chỉ tô số tiền. */
 .t-green{color:var(--forest)}
 .t-red{color:var(--accent)}
@@ -42,21 +42,9 @@
 .brow__act .ibtn{opacity:0;transition:opacity var(--t-fast) var(--ease)}
 .brow:hover .brow__act .ibtn,.brow__act .ibtn:focus-visible{opacity:1}
 @media (hover:none){.brow__act .ibtn{opacity:1}}
-/* Cấu hình danh mục ngân sách trong Cài đặt. */
-.bcfg__group{font:400 1.1rem/1.2 var(--font-serif);margin:var(--s-5) 0 var(--s-1)}
-.bcfg{list-style:none;margin:0;padding:0}
-.bcfg li{display:grid;grid-template-columns:minmax(0,1fr) auto auto auto;gap:var(--s-1) var(--s-4);align-items:center;padding:var(--s-2) 0;border-bottom:var(--bw) solid var(--line);font-size:var(--fs-sm)}
-.bcfg li:last-child{border-bottom:0}
-.bcfg__n{font-weight:500}
-.bcfg__m{font-variant-numeric:tabular-nums;white-space:nowrap}
-.bcfg__d{color:var(--ink-3);white-space:nowrap}
-.bcfg__act{white-space:nowrap}
-.bcfg__act .btn+.btn{margin-left:var(--s-1)}
 .checkline{display:flex;align-items:center;gap:var(--s-3);min-height:var(--tap);cursor:pointer}
 .checkline .check{flex:none}
 @media (max-width:760px){
   .bstats{grid-template-columns:repeat(2,minmax(0,1fr))}
   .btable{min-width:760px}
-  .bcfg li{grid-template-columns:minmax(0,1fr) auto;grid-template-areas:"n m" "n d" "n act"}
-  .bcfg__n{grid-area:n}.bcfg__m{grid-area:m;justify-self:end}.bcfg__d{grid-area:d;justify-self:end}.bcfg__act{grid-area:act;justify-self:end}
 }

@@ -60,6 +60,10 @@ function view() {
       <li><span class="sw" style="background:var(--line-strong)"></span>Còn lại dự chi<b>${esc(formatVNDShort(Math.max(0, b.planned - b.chi)))}</b></li>
       <li><span></span>Độ lệch<b>${esc(b.variance === 0 ? '0 ₫' : (b.variance > 0 ? '+' : '−') + formatVNDShort(Math.abs(b.variance)))}</b></li>
       <li><span></span>Đã thu<b>${esc(formatVNDShort(b.thu))}</b></li></ul>
+    ${D.budgetByCategory(d.budget, d.categories).length ? `<ul class="cats">${D.budgetByCategory(d.budget, d.categories).map(c => {
+      const pct = c.planned ? Math.min(100, Math.round(c.actual / c.planned * 100)) : 0;
+      return `<li><span>${esc(c.name)}</span><span>${esc(formatVNDShort(c.actual))} / ${esc(formatVNDShort(c.planned))}</span><div class="bar"><i style="width:${pct}%;background:${c.actual > c.planned ? 'var(--accent)' : 'var(--forest)'}"></i></div></li>`;
+    }).join('')}</ul>` : ''}
     <p class="fine">Độ lệch = thực chi − dự chi. Thực chi ghi dần theo từng lần trả; khoản “trả sau” đã tính vào thực chi nhưng chưa ra tiền.</p></section>
   <section class="panel" aria-labelledby="hm"><div class="section__head"><h2 id="hm">Mốc quan trọng</h2></div>
     ${keyEvents.length ? `<ol class="miles">${miles}</ol>` : '<p>Chưa có sự kiện quan trọng.</p>'}</section>
