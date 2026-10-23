@@ -40,7 +40,7 @@ function view(data) {
         <section class="inv-section"><h2>Cấu hình chung</h2><p class="fine">Thông tin dùng chung cho mọi thiệp — các khối dưới đây chỉ tham chiếu, sửa một chỗ cập nhật toàn bộ.</p>${configForm(data.invitation)}</section>
         <section class="inv-section"><h2>Khối thiệp</h2><p class="fine">Thêm, xóa, đổi thứ tự các khối trong bộ khung có sẵn. Thiết kế visual sau này chỉ thêm mẫu khối mới, không phá cấu trúc.</p>${blockEditor(data.invitation)}</section>
       </div>
-      <aside class="inv-side"><h2>Xem trước</h2><div id="inv-preview-box">${preview(data)}</div><p class="fine">Preview dùng khách mẫu; link thật hiển thị tên khách tương ứng.</p></aside>
+      <aside class="inv-side"><h2>Xem trước</h2><div id="inv-preview-box">${preview(data)}</div><p class="fine">Preview dùng khách mẫu; link thật hiển thị tên khách tương ứng.</p><p class="fine"><a href="thiep.html" target="_blank" rel="noopener">Mở mẫu thiết kế mới (thiep.html) →</a></p></aside>
     </div></div>`;
 }
 /** Đọc giá trị đang nhập trong form cấu hình (chưa lưu) để preview cập nhật live. */

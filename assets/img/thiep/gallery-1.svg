@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1000" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Ảnh album cưới 1">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F8E8E0"/>
+      <stop offset="1" stop-color="#EBD2C6"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".42" r=".6">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity=".45"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <g id="sprig">
+      <path d="M0 0 C 30 -20 70 -35 130 -42" fill="none" stroke="#C9A96A" stroke-width="2.5" stroke-linecap="round" opacity=".7"/>
+      <ellipse cx="30" cy="-18" rx="16" ry="5.5" fill="#C9A96A" opacity=".45" transform="rotate(-38 30 -18)"/>
+      <ellipse cx="34" cy="-14" rx="16" ry="5.5" fill="#C9A96A" opacity=".3" transform="rotate(142 34 -14)"/>
+      <ellipse cx="58" cy="-27" rx="17" ry="6" fill="#C9A96A" opacity=".45" transform="rotate(-32 58 -27)"/>
+      <ellipse cx="62" cy="-23" rx="17" ry="6" fill="#C9A96A" opacity=".3" transform="rotate(148 62 -23)"/>
+      <ellipse cx="90" cy="-35" rx="16" ry="5.5" fill="#C9A96A" opacity=".45" transform="rotate(-28 90 -35)"/>
+      <ellipse cx="94" cy="-31" rx="16" ry="5.5" fill="#C9A96A" opacity=".3" transform="rotate(152 94 -31)"/>
+      <circle cx="130" cy="-42" r="6" fill="#C9A96A" opacity=".6"/>
+    </g>
+  </defs>
+  <rect width="800" height="1000" fill="url(#bg)"/>
+  <rect width="800" height="1000" fill="url(#glow)"/>
+  <g fill="none" stroke="#C9A96A" opacity=".65">
+    <circle cx="370" cy="470" r="88" stroke-width="7"/>
+    <circle cx="430" cy="470" r="88" stroke-width="7"/>
+  </g>
+  <g transform="translate(370 382) rotate(45)">
+    <rect x="-11" y="-11" width="22" height="22" fill="#EAF2F4" stroke="#C9A96A" stroke-width="3"/>
+  </g>
+  <use href="#sprig" transform="translate(20 990) rotate(-14) scale(1.9)"/>
+  <use href="#sprig" transform="translate(790 1000) rotate(-74) scale(1.9)"/>
+  <circle cx="670" cy="160" r="30" fill="#C9A96A" opacity=".09"/>
+  <circle cx="130" cy="240" r="18" fill="#C9A96A" opacity=".12"/>
+</svg>
