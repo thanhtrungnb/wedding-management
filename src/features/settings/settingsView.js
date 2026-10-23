@@ -4,7 +4,10 @@ import { saveProfile } from '../../services/profileService.js';
 import { removeItem } from '../../services/budgetService.js';
 import { openNewItemDialog, openItemDialog } from '../budget/budgetDialogs.js';
 import { exportJSON, readImport } from '../../storage/backup.js';
-import { getSyncUrl, setSyncUrl, getLastSync, pull, push } from '../../storage/remoteStore.js';
+import { getLastSync, pull, push } from '../../storage/remoteStore.js';
+import { getCloudUrl, getAdminKey, setCloudConnection, isCloudConfigured } from '../../storage/cloudConfig.js';
+import { publishGuestData, readGuestState } from '../../storage/guestBackend.js';
+import { applyRemoteGuestState } from '../../services/guestService.js';
 import { openSheet } from '../../ui/sheet.js';
 import { svg } from '../../ui/icons.js';
 import { updateSyncNote } from '../../core/nav.js';
@@ -26,8 +29,9 @@ function openGuide() {
       <li>Mở <a href="https://sheets.new" target="_blank" rel="noopener">Google Sheet mới</a> bằng tài khoản Google của bạn.</li>
       <li>Trên Sheet: <em>Extensions</em> → <em>Apps Script</em>. Xóa nội dung mặc định rồi dán mã nguồn:
         <div class="set__row"><button type="button" class="btn btn--sm" data-copy-code>Sao chép mã nguồn</button><span id="copy-msg" class="fine" role="status"></span></div></li>
+      <li>Trong mã nguồn vừa dán, đổi <code>ADMIN_KEY</code> thành một khóa ngẫu nhiên dài — khóa này chỉ nhập trên thiết bị quản lý, không đưa vào link thiệp.</li>
       <li><em>Deploy</em> → <em>New deployment</em> → <em>Web app</em>, mục truy cập chọn <em>Anyone</em> → <em>Deploy</em>.</li>
-      <li>Copy địa chỉ kết thúc bằng <code>/exec</code>, dán vào ô địa chỉ ở Cài đặt rồi bấm <em>Gửi lên Sheet</em>.</li>
+      <li>Copy địa chỉ kết thúc bằng <code>/exec</code>, dán vào ô địa chỉ ở Cài đặt cùng với khóa quản trị, rồi bấm <em>Gửi dữ liệu app</em>.</li>
     </ol></div>`, {
     label: 'Hướng dẫn kết nối Google Sheet',
     onMount(host, sig) {
@@ -72,10 +76,13 @@ function view() {
     <div class="set__row"><button type="button" class="btn btn--sm" data-export>Xuất tệp .json</button>
     <label class="btn btn--sm btn--quiet filebtn">Nhập từ tệp<input type="file" accept="application/json,.json" data-import hidden></label></div>
     <p id="import-msg" role="status" class="fine"></p></section>
-  <section class="set__card" aria-labelledby="st-sync"><div class="set__intro"><div class="set__ttl"><span class="set__ico">${svg('sync')}</span><h2 id="st-sync">Đồng bộ Google Sheet</h2></div><p>Gửi bản sao lên Google Sheet để dùng trên nhiều thiết bị.</p></div>
+  <section class="set__card" aria-labelledby="st-sync"><div class="set__intro"><div class="set__ttl"><span class="set__ico">${svg('sync')}</span><h2 id="st-sync">Kết nối đám mây</h2></div><p>Một URL Web App + một khóa quản trị dùng chung cho toàn app: đồng bộ dữ liệu, khách mời, thiệp và RSVP. Khóa chỉ lưu trên thiết bị này.</p></div>
     <div class="field"><label class="field__l" for="sync-url">Địa chỉ Web App (kết thúc bằng /exec)</label>
-    <input id="sync-url" class="input" type="url" spellcheck="false" placeholder="https://script.google.com/macros/s/…/exec" value="${esc(getSyncUrl())}"></div>
-    <div class="set__row"><button type="button" class="btn btn--sm" data-push>Gửi lên Sheet</button><button type="button" class="btn btn--sm btn--quiet" data-pull>Tải từ Sheet</button>
+    <input id="sync-url" class="input" type="url" spellcheck="false" placeholder="https://script.google.com/macros/s/…/exec" value="${esc(getCloudUrl())}"></div>
+    <div class="field"><label class="field__l" for="sync-key">Khóa quản trị (ADMIN_KEY trong mã nguồn Apps Script)</label>
+    <input id="sync-key" class="input" type="password" autocomplete="off" value="${esc(getAdminKey())}"></div>
+    <div class="set__row"><button type="button" class="btn btn--sm" data-push>Gửi dữ liệu app</button><button type="button" class="btn btn--sm btn--quiet" data-pull>Tải dữ liệu app</button>
+    <button type="button" class="btn btn--sm btn--quiet" data-publish>Đẩy khách &amp; thiệp</button><button type="button" class="btn btn--sm btn--quiet" data-pull-rsvp>Tải RSVP</button>
     <button type="button" class="btn btn--sm btn--quiet" data-guide>Hướng dẫn kết nối</button></div>
     <p id="sync-status" role="status" class="fine">${esc(formatSyncTime(getLastSync()))}</p></section>
   <section class="set__card set__card--danger" aria-labelledby="st-reset"><div class="set__intro"><div class="set__ttl"><span class="set__ico">${svg('warn')}</span><h2 id="st-reset">Bắt đầu lại</h2></div><p>Xóa dữ liệu hiện tại — nên xuất bản sao lưu trước.</p></div>
@@ -107,20 +114,42 @@ export function mount(el, signal) {
       catch { toast('Không đọc được tệp dữ liệu mẫu.'); }
     }
     if (e.target.closest('[data-guide]')) { openGuide(); return; }
-    const btn = e.target.closest('[data-push],[data-pull]'); if (!btn) return;
-    setSyncUrl(el.querySelector('#sync-url').value);
-    const st = el.querySelector('#sync-status'), isPush = btn.hasAttribute('data-push');
-    el.querySelectorAll('[data-push],[data-pull]').forEach(b => b.disabled = true);
-    st.textContent = isPush ? 'Đang gửi lên Sheet…' : 'Đang tải từ Sheet…';
-    const r = isPush ? await push(getData()) : await pull();
-    el.querySelectorAll('[data-push],[data-pull]').forEach(b => b.disabled = false);
-    if (!r.ok) { st.textContent = r.errors[0]; return; }
-    if (isPush) { st.textContent = formatSyncTime(new Date(r.updatedAt)); updateSyncNote(); toast('Đã gửi dữ liệu lên Google Sheet.'); return; }
-    if (confirm(`Thay dữ liệu trên máy bằng bản trên Sheet (${r.data.tasks.length} việc)?`)) { replaceAll(r.data); el.innerHTML = `<div class="setpage">${view()}</div>`; updateSyncNote(); toast('Đã tải dữ liệu từ Google Sheet.'); }
-    else st.textContent = formatSyncTime(getLastSync());
+    const btn = e.target.closest('[data-push],[data-pull],[data-publish],[data-pull-rsvp]'); if (!btn) return;
+    setCloudConnection(el.querySelector('#sync-url').value, el.querySelector('#sync-key').value);
+    if (!isCloudConfigured()) { el.querySelector('#sync-status').textContent = 'Nhập địa chỉ Web App hợp lệ và khóa quản trị trước.'; return; }
+    const st = el.querySelector('#sync-status');
+    const buttons = () => el.querySelectorAll('[data-push],[data-pull],[data-publish],[data-pull-rsvp]');
+    buttons().forEach(b => b.disabled = true);
+    try {
+      if (btn.hasAttribute('data-publish')) {
+        st.textContent = 'Đang đẩy khách & thiệp…';
+        await publishGuestData(getData());
+        st.textContent = 'Đã cập nhật khách mời và thiệp lên đám mây.';
+      } else if (btn.hasAttribute('data-pull-rsvp')) {
+        st.textContent = 'Đang tải RSVP…';
+        const remote = await readGuestState();
+        commit(data => applyRemoteGuestState(data, remote.guests));
+        st.textContent = 'Đã tải trạng thái RSVP mới nhất.';
+      } else if (btn.hasAttribute('data-push')) {
+        st.textContent = 'Đang gửi dữ liệu app…';
+        const r = await push(getData());
+        if (!r.ok) { st.textContent = r.errors[0]; return; }
+        st.textContent = formatSyncTime(new Date(r.updatedAt)); updateSyncNote(); toast('Đã gửi dữ liệu app lên đám mây.');
+      } else {
+        st.textContent = 'Đang tải dữ liệu app…';
+        const r = await pull();
+        if (!r.ok) { st.textContent = r.errors[0]; return; }
+        if (confirm(`Thay dữ liệu trên máy bằng bản trên đám mây (${r.data.tasks.length} việc)? Danh sách khách và thiết kế thiệp cục bộ được giữ nguyên.`)) {
+          const current = getData(); replaceAll({ ...r.data, guests: current.guests, invitation: current.invitation });
+          el.innerHTML = `<div class="setpage">${view()}</div>`; updateSyncNote(); toast('Đã tải dữ liệu app từ đám mây.');
+        }
+        else st.textContent = formatSyncTime(getLastSync());
+      }
+    } catch (error) { st.textContent = error.message; }
+    finally { buttons().forEach(b => b.disabled = false); }
   }, { signal });
   el.addEventListener('change', async e => {
-    if (e.target.id === 'sync-url') { setSyncUrl(e.target.value); toast(e.target.value.trim() ? 'Đã lưu địa chỉ đồng bộ.' : 'Đã xóa địa chỉ đồng bộ.'); return; }
+    if (e.target.id === 'sync-url' || e.target.id === 'sync-key') { setCloudConnection(el.querySelector('#sync-url').value, el.querySelector('#sync-key').value); toast('Đã lưu kết nối đám mây.'); return; }
     const f = e.target.closest('[data-import]')?.files?.[0]; if (!f) return;
     const msg = el.querySelector('#import-msg'), r = await readImport(f); e.target.value = '';
     if (!r.ok) { msg.innerHTML = `Không thể nhập tệp này, dữ liệu hiện tại được giữ nguyên:<br>${r.errors.map(esc).join('<br>')}`; return; }

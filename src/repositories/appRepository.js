@@ -1,5 +1,6 @@
 /* Hợp đồng dữ liệu: load / save / reset / blank. Thay file này để đổi sang backend khác. */
 import { SCHEMA_VERSION, validateAppData } from '../models/schema.js';
+import { defaultBlocks } from '../models/invitation.js';
 import { readRaw, writeRaw, clearRaw, quarantine } from '../storage/localStore.js';
 
 /* Dữ liệu mẫu nằm trong "khuôn" JSON: mỗi việc/mốc chỉ mang offset so với ngày cưới.
@@ -56,7 +57,8 @@ const FALLBACK_CATEGORIES = [
   { id: 'family', name: 'Lễ nghi & gia đình' }, { id: 'guest', name: 'Khách mời & thiệp' },
 ];
 const blankData = () => ({ schemaVersion: SCHEMA_VERSION, isSample: false, couple: { bride: '', groom: '' }, weddingDate: '',
-  categories: structuredClone(FALLBACK_CATEGORIES), tasks: [], events: [], milestones: [], budget: { items: [], records: [] } });
+  categories: structuredClone(FALLBACK_CATEGORIES), tasks: [], events: [], milestones: [], budget: { items: [], records: [] }, guests: [],
+  invitation: { messageTemplate: '', title: '', message: '', venue: '', ceremonyAt: '', background: '#F6F0E4', accent: '#2F4A3C', imageUrl: '', blocks: defaultBlocks() } });
 
 export async function load() {
   const raw = readRaw();
