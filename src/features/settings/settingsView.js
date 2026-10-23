@@ -1,17 +1,16 @@
 import { getData, commit, undo, onChange, replaceAll, startBlank, restoreSample } from '../../core/store.js';
 import { toast } from '../../core/toast.js';
 import { saveProfile } from '../../services/profileService.js';
-import { removeItem } from '../../services/budgetService.js';
-import { openNewItemDialog, openItemDialog } from '../budget/budgetDialogs.js';
+import { saveCategory, removeCategory } from '../../services/categoryService.js';
 import { exportJSON, readImport } from '../../storage/backup.js';
 import { getLastSync, pull, push } from '../../storage/remoteStore.js';
 import { getCloudUrl, getAdminKey, setCloudConnection, isCloudConfigured } from '../../storage/cloudConfig.js';
 import { publishGuestData, readGuestState } from '../../storage/guestBackend.js';
 import { applyRemoteGuestState } from '../../services/guestService.js';
-import { openSheet } from '../../ui/sheet.js';
+import { openSheet, closeSheet } from '../../ui/sheet.js';
 import { svg } from '../../ui/icons.js';
 import { updateSyncNote } from '../../core/nav.js';
-import { esc, formatVNDShort, formatDateShort, formatSyncTime } from '../../utils/format.js';
+import { esc, formatSyncTime } from '../../utils/format.js';
 /** Clipboard API cần ngữ cảnh bảo mật (https/localhost) — có fallback cho http thường. */
 async function copyText(t) {
   try { await navigator.clipboard.writeText(t); return true; }
@@ -46,17 +45,34 @@ function openGuide() {
   });
 }
 
-/* Danh mục ngân sách: khoản được cấu hình ở đây, trang Ngân sách chỉ ghi chép theo danh mục này. */
-function budgetList(d) {
-  if (!d.budget.items.length) return '<p class="fine">Chưa có khoản nào — bấm “Thêm khoản” để bắt đầu.</p>';
-  return d.categories.map(c => {
-    const items = d.budget.items.filter(x => x.categoryId === c.id); if (!items.length) return '';
-    return `<h3 class="bcfg__group">${esc(c.name)}</h3><ul class="bcfg">${items.map(x => `<li>
-      <span class="bcfg__n">${esc(x.name)}${x.type === 'thu' ? ' <span class="tag tag--done">Thu</span>' : ''}</span>
-      <span class="bcfg__m ${x.type === 'thu' ? 't-green' : 't-red'}">${esc(formatVNDShort(x.planned))}</span>
-      <span class="bcfg__d">${x.date ? esc(formatDateShort(x.date)) : ''}</span>
-      <span class="bcfg__act"><button type="button" class="btn btn--sm btn--quiet" data-edit-item="${esc(x.id)}">Sửa</button><button type="button" class="btn btn--sm btn--quiet btn--danger" data-del-item="${esc(x.id)}" aria-label="Xóa khoản ${esc(x.name)}">Xóa</button></span></li>`).join('')}</ul>`;
-  }).join('');
+/* Hạng mục: dữ liệu gốc dùng chung — việc cần làm và khoản ngân sách đều gắn vào một hạng mục. Không tổng hợp tiền ở đây. */
+function catList(d) {
+  if (!d.categories.length) return '<p class="fine">Chưa có hạng mục nào — bấm “Thêm hạng mục” để bắt đầu.</p>';
+  return `<ul class="catlist">${d.categories.map(c => `<li>
+    <span class="catlist__n">${esc(c.name)}</span>
+    <span class="catlist__act"><button type="button" class="ibtn" data-edit-cat="${esc(c.id)}" aria-label="Sửa hạng mục ${esc(c.name)}">${svg('pencil')}</button><button type="button" class="ibtn ibtn--danger" data-del-cat="${esc(c.id)}" aria-label="Xóa hạng mục ${esc(c.name)}">${svg('trash')}</button></span></li>`).join('')}</ul>`;
+}
+
+/** Thêm/sửa hạng mục — hạng mục chỉ có tên, dùng chung cho việc cần làm và ngân sách. */
+function openCategoryDialog({ id } = {}) {
+  const d = getData(), cur = id ? d.categories.find(c => c.id === id) : null;
+  if (id && !cur) return;
+  const html = `<form class="sheet__body" novalidate>
+    <header class="sheet__head"><h2 class="sheet__title">${id ? 'Sửa hạng mục' : 'Thêm hạng mục'}</h2><button type="button" class="sheet__x" data-close aria-label="Đóng">×</button></header>
+    <div class="field"><label class="field__l" for="f-cat">Tên hạng mục</label>
+      <input id="f-cat" name="name" class="input" maxlength="60" autocomplete="off" required autofocus placeholder="ví dụ: Địa điểm, Trang phục, Nhiếp ảnh" value="${esc(cur?.name ?? '')}">
+      <p class="field__err" data-err="name" role="alert"></p></div>
+    <footer class="sheet__foot"><button class="btn" type="submit">${id ? 'Lưu thay đổi' : 'Thêm hạng mục'}</button><button class="btn btn--quiet" type="button" data-close>Hủy</button></footer></form>`;
+  openSheet(html, { label: id ? 'Sửa hạng mục' : 'Thêm hạng mục', onMount(dlg, signal) {
+    const form = dlg.querySelector('form');
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const input = Object.fromEntries(new FormData(form));
+      const r = commit(dd => saveCategory(dd, input, id ?? null));
+      if (!r.ok) return void (form.querySelector('[data-err="name"]').textContent = r.errors.name ?? '');
+      closeSheet(); toast(id ? 'Đã lưu thay đổi.' : `Đã thêm hạng mục “${input.name.trim()}”.`);
+    }, { signal });
+  } });
 }
 
 function view() {
@@ -69,9 +85,9 @@ function view() {
       <div class="field"><label class="field__l" for="p-groom">Chú rể</label><input id="p-groom" name="groom" class="input" maxlength="40" value="${esc(d.couple.groom)}"></div>
       <div class="field"><label class="field__l" for="p-date">Ngày cưới</label><input id="p-date" name="weddingDate" type="date" class="input" value="${esc(d.weddingDate)}"><p class="field__err" data-err="weddingDate" role="alert"></p></div></div>
       <div class="set__row"><button class="btn btn--sm" type="submit">Lưu thông tin</button></div></form></section>
-  <section class="set__card" aria-labelledby="st-budget"><div class="set__intro"><div class="set__ttl"><span class="set__ico">${svg('coin')}</span><h2 id="st-budget">Danh mục ngân sách</h2></div><p>Khoản thu/chi dùng để ghi chép trong trang Ngân sách — mỗi khoản thuộc một nhóm công việc.</p></div>
-    <div class="set__row"><button type="button" class="btn btn--sm" data-add-item>Thêm khoản</button></div>
-    <div id="budget-items">${budgetList(d)}</div></section>
+  <section class="set__card" aria-labelledby="st-cats"><div class="set__intro"><div class="set__ttl"><span class="set__ico">${svg('list')}</span><h2 id="st-cats">Hạng mục</h2></div><p>Dữ liệu gốc dùng chung: việc trong trang Việc cần làm và khoản trong trang Ngân sách đều gắn vào một hạng mục. Không tổng hợp số tiền ở đây.</p></div>
+    <div class="set__row"><button type="button" class="btn btn--sm" data-add-cat>Thêm hạng mục</button></div>
+    <div id="cat-list">${catList(d)}</div></section>
   <section class="set__card" aria-labelledby="st-backup"><div class="set__intro"><div class="set__ttl"><span class="set__ico">${svg('save')}</span><h2 id="st-backup">Sao lưu</h2></div><p>Dữ liệu nằm trên trình duyệt này — nên xuất bản sao định kỳ.</p></div>
     <div class="set__row"><button type="button" class="btn btn--sm" data-export>Xuất tệp .json</button>
     <label class="btn btn--sm btn--quiet filebtn">Nhập từ tệp<input type="file" accept="application/json,.json" data-import hidden></label></div>
@@ -91,20 +107,23 @@ function view() {
 }
 export function mount(el, signal) {
   el.innerHTML = `<div class="setpage">${view()}</div>`;
-  /* Chỉ vẽ lại danh sách khoản — không vẽ lại cả trang để không mất giá trị đang nhập ở các ô khác. */
-  onChange(() => { const box = el.querySelector('#budget-items'); if (box) box.innerHTML = budgetList(getData()); }, signal);
+  /* Chỉ vẽ lại danh sách hạng mục — không vẽ lại cả trang để không mất giá trị đang nhập ở các ô khác. */
+  onChange(() => {
+    const cats = el.querySelector('#cat-list'); if (cats) cats.innerHTML = catList(getData());
+  }, signal);
   el.addEventListener('submit', e => {
     e.preventDefault(); const form = e.target;
     const r = commit(d => saveProfile(d, Object.fromEntries(new FormData(form))));
     if (r.ok) toast('Đã lưu thông tin đám cưới.'); else form.querySelector('[data-err]').textContent = r.errors.weddingDate ?? r.errors.names ?? '';
   }, { signal });
   el.addEventListener('click', async e => {
-    if (e.target.closest('[data-add-item]')) return openNewItemDialog();
-    const ed = e.target.closest('[data-edit-item]'); if (ed) return openItemDialog({ id: ed.dataset.editItem });
-    const del = e.target.closest('[data-del-item]');
-    if (del) {
-      const r = commit(d => removeItem(d, del.dataset.delItem), { undoable: true });
-      if (r.ok) toast(`Đã xóa khoản “${r.name}”.`, { label: 'Hoàn tác', run: undo });
+    if (e.target.closest('[data-add-cat]')) return openCategoryDialog();
+    const ec = e.target.closest('[data-edit-cat]'); if (ec) return openCategoryDialog({ id: ec.dataset.editCat });
+    const dc = e.target.closest('[data-del-cat]');
+    if (dc) {
+      const r = commit(d => removeCategory(d, dc.dataset.delCat), { undoable: true });
+      if (r.ok) toast(`Đã xóa hạng mục “${r.name}”.`, { label: 'Hoàn tác', run: undo });
+      else toast(r.message || 'Không xóa được hạng mục.');
       return;
     }
     if (e.target.closest('[data-export]')) { exportJSON(getData()); toast('Đã tạo tệp sao lưu.'); }

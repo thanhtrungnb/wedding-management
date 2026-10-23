@@ -11,6 +11,7 @@ export const ICON = {
   heart:'<path d="M12 20s-7.2-4.6-9.2-9.1C1.6 8 3.5 4.8 6.6 4.8c1.9 0 3.4 1 4.4 2.7 1-1.7 2.5-2.7 4.4-2.7 3.1 0 5 3.2 3.8 6.1C17.2 15.4 12 20 12 20z"/>',
   save:'<path d="M12 4v10m0 0l-4-4m4 4l4-4M5 19h14"/>',
   sync:'<path d="M20 12a8 8 0 1 1-2.3-5.6M20 4v4h-4"/>',
+  menu:'<path d="M4 6h16M4 12h16M4 18h16"/>',
   warn:'<path d="M12 4l9 16H3z"/><path d="M12 10v5m0 2.5v.5"/>',
 };
 ICON.chev='<path d="M9 6l6 6-6 6"/>'; ICON.plus='<path d="M12 5v14M5 12h14"/>'; ICON.x='<path d="M6 6l12 12M18 6L6 18"/>'; ICON.down='<path d="M6 9l6 6 6-6"/>'; ICON.search='<circle cx="11" cy="11" r="6"/><path d="M20 20l-4-4"/>'; ICON.note='<path d="M6 3h9l4 4v14H6z"/><path d="M15 3v4h4"/><path d="M9 12h6M9 16h4"/>';

@@ -3,7 +3,7 @@ import { toast } from '../../core/toast.js';
 import * as D from '../../services/dashboard.js';
 import { removeItem, removeRecord, recordsOf } from '../../services/budgetService.js';
 import { svg } from '../../ui/icons.js';
-import { openRecordDialog, openItemDialog } from './budgetDialogs.js';
+import { openRecordDialog, openItemDialog, openNewItemDialog } from './budgetDialogs.js';
 import { esc, formatVND, formatVNDShort, formatDateShort } from '../../utils/format.js';
 
 /* Trạng thái đóng/mở của hàng master — chỉ giữ trong phiên làm việc. */
@@ -11,7 +11,7 @@ const collapsed = new Set();
 
 const shell = () => `<header class="page-head"><div><h1 class="page-title">Ngân sách</h1><p class="lede" id="summary"></p></div></header>
   <div id="stats"></div>
-  <div class="btable-bar"><button type="button" class="btn" data-add-record>${svg('plus')} Thêm ghi chép</button></div>
+  <div class="btable-bar"><button type="button" class="btn" data-add-record>${svg('plus')} Thêm ghi chép</button><button type="button" class="btn btn--quiet" data-add-item>${svg('plus')} Thêm khoản</button></div>
   <div id="table"></div>`;
 
 function keyOf(el) {
@@ -72,7 +72,7 @@ function itemRow(it) {
 function renderTable(el, data) {
   const groups = D.budgetByCategory(data.budget, data.categories);
   if (!groups.length) {
-    el.querySelector('#table').innerHTML = `<div class="empty"><h2 class="serif">Chưa có khoản nào</h2><p>Khoản (danh mục) được cấu hình trong <a href="#/cai-dat">Cài đặt</a>. Sau đó quay lại đây để ghi chép từng lần thu chi.</p></div>`;
+    el.querySelector('#table').innerHTML = `<div class="empty"><h2 class="serif">Chưa có khoản nào</h2><p>Bấm “Thêm khoản” để tạo khoản thu/chi đầu tiên, sau đó ghi chép từng lần chi tiêu.</p></div>`;
     return;
   }
   const rows = groups.map(g => {
@@ -134,6 +134,7 @@ export function mount(el, signal) {
       if (r.ok) toast(`Đã xóa khoản “${r.name}”.`, { label: 'Hoàn tác', run: undo });
       return;
     }
+    if (e.target.closest('[data-add-item]')) return openNewItemDialog();
     if (e.target.closest('[data-add-record]')) return openRecordDialog();
   }, { signal });
 }
