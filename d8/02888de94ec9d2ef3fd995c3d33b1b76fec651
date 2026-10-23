@@ -1,0 +1,70 @@
+src/features/budget/budgetView.js
+  s_70b3f48419945d::t_c5fa468b42e4cf 75
+  s_70b3f48419945d::t_3711fb689f8c15 14
+  s_70b3f48419945d::t_d4175c94bec1c7 6
+  s_70b3f48419945d::t_d35ca58aa87834 137
+src/ui/icons.js
+  s_e8810a2ecd1262::t_68a5ef9d430984 14
+src/features/budget/budgetDialogs.js
+  s_70b3f48419945d::t_2a1be448a88875 46
+  s_70b3f48419945d::t_4cbad471a294a2 20
+  s_70b3f48419945d::t_dbac793e3c0a63 77
+src/core/nav.js
+  s_e8810a2ecd1262::t_1f2f0dd884a921 13-14,20-24,26-27,34-39,42-58
+src/features/settings/settingsView.js
+  s_70b3f48419945d::t_cd7c95c4d3b69d 88-89
+  s_70b3f48419945d::t_431893fa69ffee 90
+  s_70b3f48419945d::t_ce85b0ee449be1 10
+  s_70b3f48419945d::t_e7a8d94cb591a5 110,112
+  s_70b3f48419945d::t_f41982c25b1bb0 111,113
+  s_70b3f48419945d::t_a51243808d9cef 4
+  s_70b3f48419945d::t_8f2c3387252783 125-126
+  s_70b3f48419945d::t_c899ce7842a071 13
+  s_70b3f48419945d::t_4b393e45985c83 120-124
+  s_70b3f48419945d::t_a765554a40c2d6 48,50-53,56,61-62,65-66,73
+  s_70b3f48419945d::t_129a7cbadf092b 49,54-55,57-60,63-64,67-72,74-75
+assets/css/app.css
+  s_e8810a2ecd1262::t_6cf0be8c939eaa 128,130,132-135
+  s_e8810a2ecd1262::t_25a10e710bc271 24
+assets/css/settings.css
+  s_70b3f48419945d::t_bcaae179b1eb8d 22-26
+src/services/categoryService.js
+  s_70b3f48419945d::t_636339d9ad8c98 1,6-7,9,12,20,30
+  s_70b3f48419945d::t_59244aac1cb1c5 2-5,8,10-11,13-19,21-29,31-34
+assets/css/budget.css
+  s_70b3f48419945d::t_7a5879039f8188 1
+src/features/dashboard/dashboardView.js
+  s_0d51c11cf8bf25::t_45d5db522b7c94 63-66
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "d802888de94ec9d2ef3fd995c3d33b1b76fec651",
+  "prompts": {},
+  "sessions": {
+    "s_0d51c11cf8bf25": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b56005e0-7ed7-46ef-ad6c-bd1af03640b7",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "nttrungmisa <nttrung.misa@gmail.com>"
+    },
+    "s_70b3f48419945d": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "9e95f375-0d81-44e4-bf02-06ec06c061ee",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "nttrungmisa <nttrung.misa@gmail.com>"
+    },
+    "s_e8810a2ecd1262": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "8302567d-b154-4a09-ba7e-98ef4acd5d32",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "nttrungmisa <nttrung.misa@gmail.com>"
+    }
+  }
+}
