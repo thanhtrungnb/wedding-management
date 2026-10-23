@@ -1,58 +1,32 @@
 # Sổ tay cưới — Wedding Management
 
-Ứng dụng sổ tay lập kế hoạch cưới bằng tiếng Việt. Frontend thuần tĩnh: ES modules vanilla, không framework, không build step, không package manager. Toàn bộ chữ nghĩa UI bằng tiếng Việt.
+Ứng dụng sổ tay lập kế hoạch cưới bằng tiếng Việt. Frontend thuần tĩnh: ES modules vanilla, không framework, không build step. Phục vụ thư mục qua HTTP bằng `npx serve .`.
 
-## Chạy thử
+## Kết nối đám mây (thống nhất)
 
-Phục vụ thư mục qua HTTP (ES modules không chạy từ `file://`):
+MỘT Google Apps Script + MỘT Google Sheet cho toàn app, cấu hình một lần trong menu **Cài đặt → Kết nối đám mây** (URL Web App + khóa quản trị). Ba sheet trong cùng một file:
 
-```
-npx serve .
-```
+- `Du_lieu` — dữ liệu app (task, ghi chép, ngân sách…).
+- `Khach_moi` — danh sách khách mời + trạng thái lời mời/RSVP.
+- `Thiep` — cấu hình thiệp (khối, màu, thời gian…).
 
-Mở URL được phục vụ. Dữ liệu lưu trong `localStorage` dưới khóa `wm:data:v1`.
+Triển khai: tạo Google Sheet → Extensions → Apps Script → dán `google-apps-script/Code.gs` → đổi `ADMIN_KEY` thành khóa ngẫu nhiên dài → Deploy Web app (Anyone) → nhập URL `/exec` + khóa vào Cài đặt. Khóa chỉ lưu trên thiết bị quản lý, không bao giờ nằm trong link thiệp.
 
-## Trạng thái tiến độ
+API: `?action=invite&token=…` (public — chỉ dữ liệu của đúng 1 khách), `{action:'rsvp'}` (public), `{action:'read'}`, `{action:'save-app'}`, `{action:'publish'}` (quản trị, cần adminKey).
 
-Dự án đang phát triển dần — cập nhật 2026-10-22.
+## Thiệp (menu Thiệp)
 
-### Hoàn thành
+- Cấu hình chung: tiêu đề, lời mời, thời gian, địa điểm, màu, ảnh bìa, mẫu tin nhắn lời mời.
+- Dựng thiệp theo khối kiểu TopCV: thêm/xóa/đổi thứ tự các khối có sẵn (ảnh bìa, kính mời, tiêu đề, tên đôi uyên ương, lời chào tên khách, lời mời, thời gian & địa điểm, đếm ngược, form RSVP, chân trang).
+- Preview trực tiếp dùng chung bộ render với trang thiệp public — thấy gì preview thì link y như vậy.
 
-- **Tổng quan** (`#/tong-quan`): đếm ngược ngày cưới, việc nên làm tiếp, việc sắp tới trong 7 ngày, mốc quan trọng, tiến độ theo nhóm, tóm tắt ngân sách.
-- **Việc cần làm** (`#/viec`): danh sách theo nhóm, việc cha/con (tối đa 2 cấp), tìm kiếm, lọc theo phụ trách/trạng thái, sắp xếp, thêm/sửa/xóa qua popup, xem chi tiết popup.
-- **Cài đặt** (`#/cai-dat`): thông tin đám cưới, xuất/nhập sao lưu `.json`, bắt đầu sổ trống, khôi phục dữ liệu mẫu.
-- **Nền tảng**: store tập trung kèm hoàn tác (undo qua toast), router hash, validate schema đầu vào (localStorage + import), cách ly dữ liệu hỏng (`wm:corrupt:*`), design token, accessibility (focus, aria, reduced-motion, tap target 44px).
+## Khách mời (menu Khách mời)
 
-### Đang làm
+- Danh sách khách mặc định lưu trong `localStorage`. Chrome/Edge có thể mở hoặc tạo CSV database trực tiếp; thay đổi khách sẽ tự ghi về CSV đã chọn. CSV/Excel cũng có thể nhập/xuất.
+- Nhập `.csv`, `.xlsx`, `.xls`; chỉ cần cột tên (`name` hoặc `Tên`), cột danh xưng và ghi chú tùy chọn — mã thiệp (token) tự sinh. Khách trùng tên được cập nhật.
+- Mỗi khách một link thiệp riêng theo mã ngẫu nhiên (`?invite=<token>&backend=<scriptUrl>`); sao chép tin nhắn lời mời có sẵn link, tick đã mời, lọc theo trạng thái lời mời/RSVP.
+- Trang public lấy dữ liệu theo mã thiệp, khách RSVP trực tiếp trên link; endpoint không trả danh sách khách.
 
-- **Ngân sách** (`#/ngan-sach`): logic tính toán đã sẵn trong `services/dashboard.js` (`budgetSummary`) — còn thiếu view. Trên mobile tạm ẩn khỏi tabbar, sidebar desktop hiển thị nhãn "Sắp có".
+## Dữ liệu ứng dụng
 
-### Chưa bắt đầu
-
-- **Lịch trình** (`#/lich-trinh`): chưa có logic lẫn view.
-- Dark mode, bản in (print stylesheet), ornament empty state.
-
-### Nhật ký sửa gần đây (2026-10-22)
-
-- Sửa nút "Xóa bộ lọc" luôn hiển thị dù chưa lọc (`.btn` đè thuộc tính `hidden`).
-- Sửa lời hứa chết "Chi tiết sẽ có ở trang Ngân sách" trên Tổng quan (route chưa tồn tại).
-- Tối giản `--ink-3` đạt tương phản WCAG AA trên nền giấy.
-- Tabbar mobile chỉ còn 3 mục dùng được thật (bỏ 2 mục "Sắp có").
-- Thêm/sửa/xem chi tiết việc đổi từ ngăn kéo bên phải thành **popup giữa màn hình** (desktop + mobile).
-- Favicon SVG monogram + tiêu đề tab thuần Việt.
-
-## Kiến trúc
-
-Luồng dữ liệu phân lớp nghiêm ngặt — phụ ứng chỉ trỏ một chiều:
-
-```
-features/ (views, DOM)
-  → services/ (business logic, thuần: đổi `data`, không DOM, không storage)
-    → models/ (validate schema, quy tắc miền)
-      → utils/
-features/ cũng → core/store.js (state dùng chung)
-  → repositories/appRepository.js (hợp đồng load/save/reset — đổi file này để cắm backend)
-    → storage/localStore.js (tầng thấp nhất; chỉ repository được gọi)
-```
-
-Chi tiết cơ chế (commit/undo, router + signal, quy tắc việc cha/con, pattern view) xem `CLAUDE.md`.
+Dữ liệu kế hoạch lưu trong `localStorage` dưới khóa `wm:data:v1`. Sao lưu JSON vẫn ở menu Cài đặt. CSV được chọn làm database chỉ lưu trên thiết bị đó; GitHub Pages không thể đọc file trên máy quản lý — dùng Apps Script khi cần link public và RSVP.

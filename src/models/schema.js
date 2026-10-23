@@ -1,6 +1,7 @@
 /* Kiểm tra & chuẩn hóa toàn bộ dữ liệu ứng dụng (dùng cho dữ liệu lưu cục bộ và tệp nhập). */
 import { parseDate } from '../utils/format.js';
 import { PRIORITIES, OWNERS, parseTags } from './task.js';
+import { normalizeBlocks } from './invitation.js';
 import { SCHEDULE_CONFIG } from '../config/schedule.js';
 export const SCHEMA_VERSION = 1;
 const str = v => (typeof v === 'string' ? v.trim() : '');
@@ -61,6 +62,23 @@ export function validateAppData(raw) {
   });
   if (raw.weddingDate && !parseDate(raw.weddingDate)) err.push('Ngày cưới không hợp lệ.');
   const data = { schemaVersion: SCHEMA_VERSION, isSample: !!raw.isSample, couple: { bride: str(raw.couple?.bride), groom: str(raw.couple?.groom) },
-    weddingDate: raw.weddingDate || '', categories, tasks, events, milestones: Array.isArray(raw.milestones) ? raw.milestones : [], budget: { items: bItems, records: bRecords } };
-  return { ok: err.length === 0, errors: err.slice(0, 6), data };
+    weddingDate: raw.weddingDate || '', categories, tasks, events, milestones: Array.isArray(raw.milestones) ? raw.milestones : [], budget: { items: bItems, records: bRecords },
+    guests: [], invitation: { messageTemplate: '', title: '', message: '', venue: '', ceremonyAt: '', background: '#F6F0E4', accent: '#2F4A3C', imageUrl: '' } };
+  const guestIds = new Set(), inviteTokens = new Set();
+  (Array.isArray(raw.guests) ? raw.guests : []).forEach((g, i) => {
+    const id = str(g?.id), name = str(g?.name), token = str(g?.token);
+    if (!id || !name || !/^[A-Za-z0-9_-]{32,100}$/.test(token)) return err.push(`Khách #${i + 1} thiếu mã, tên hoặc mã thiệp không hợp lệ.`);
+    if (guestIds.has(id)) return err.push(`Khách trùng mã: ${id}`); guestIds.add(id);
+    if (inviteTokens.has(token)) return err.push(`Mã thiệp bị trùng: ${token}`); inviteTokens.add(token);
+    const rsvp = ['pending', 'attending', 'declined'].includes(g.rsvp) ? g.rsvp : 'pending';
+    data.guests.push({ id, name, salutation: str(g.salutation), token, invitedAt: str(g.invitedAt), inviteTime: str(g.inviteTime), rsvp,
+      partySize: Number.isInteger(g.partySize) && g.partySize >= 0 ? g.partySize : 0, note: str(g.note) });
+  });
+  const rawInvitation = raw.invitation || {};
+  data.invitation = { messageTemplate: str(rawInvitation.messageTemplate), title: str(rawInvitation.title), message: str(rawInvitation.message),
+    venue: str(rawInvitation.venue), ceremonyAt: str(rawInvitation.ceremonyAt), background: /^#[\da-f]{6}$/i.test(rawInvitation.background) ? rawInvitation.background : '#F6F0E4',
+    accent: /^#[\da-f]{6}$/i.test(rawInvitation.accent) ? rawInvitation.accent : '#2F4A3C', imageUrl: str(rawInvitation.imageUrl),
+    blocks: normalizeBlocks(rawInvitation.blocks) };
+  const result = { ok: err.length === 0, errors: err.slice(0, 6), data };
+  return result;
 }

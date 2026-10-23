@@ -125,7 +125,7 @@ button{font:inherit;color:inherit;cursor:pointer}
   .task__sub{grid-column:2}
   .task.is-go{grid-template-columns:24px 24px minmax(0,1fr)}
   .task__go{grid-column:3;align-self:start}
-  .tabbar{display:grid;grid-template-columns:repeat(5,1fr);position:fixed;inset:auto 0 0 0;background:var(--surface);border-top:var(--bw) solid var(--line-strong);padding-bottom:env(safe-area-inset-bottom);z-index:30}
+  .tabbar{display:grid;grid-template-columns:repeat(7,1fr);position:fixed;inset:auto 0 0 0;background:var(--surface);border-top:var(--bw) solid var(--line-strong);padding-bottom:env(safe-area-inset-bottom);z-index:30}
   .tabbar .tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:56px;background:none;border:0;font-size:var(--fs-xs);color:var(--ink-3)}
   .tabbar .tab[aria-current=page]{color:var(--accent);font-weight:600}
   .tabbar .tab[aria-disabled=true]{opacity:.6}

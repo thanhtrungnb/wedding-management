@@ -1,0 +1,34 @@
+/* Trang Thiệp: cấu hình chung + trình biên tập khối + preview dùng chung bộ render public. */
+.inv-page{padding-bottom:var(--s-7)}
+.inv-page .page-head{margin-bottom:var(--s-5)}
+.inv-layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:var(--s-5);align-items:start}
+.inv-section{padding:var(--s-5);margin-bottom:var(--s-4);border:1px solid var(--line);border-radius:var(--r-lg);background:var(--surface)}
+.inv-section h2{font:400 var(--fs-xl)/var(--lh-tight) var(--font-serif)}
+.inv-section>.fine{max-width:75ch}
+.inv-config .field{margin-top:var(--s-3)}
+.inv-config .input{width:100%;min-width:0;min-height:var(--tap);padding:var(--s-2) var(--s-3);border:1px solid var(--line-strong);border-radius:var(--r-sm);background:var(--paper);color:var(--ink);font:inherit}
+.inv-config textarea.input{resize:vertical}
+.inv-config .inv-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--s-3)}
+.inv-config button{margin-top:var(--s-4)}
+.inv-add{margin-top:var(--s-4)}
+.inv-add__row{display:flex;gap:var(--s-2);margin-top:var(--s-1)}
+.inv-add__row .input{flex:1;min-width:0;min-height:var(--tap);padding:var(--s-2) var(--s-3);border:1px solid var(--line-strong);border-radius:var(--r-sm);background:var(--paper);color:var(--ink);font:inherit}
+.inv-blocks{list-style:none;margin:var(--s-4) 0 0;padding:0;display:grid;gap:var(--s-2)}
+.inv-block{padding:var(--s-3);border:1px solid var(--line);border-radius:var(--r-md);background:var(--paper)}
+.inv-block__head{display:flex;align-items:center;gap:var(--s-2);flex-wrap:wrap}
+.inv-block__head strong{font-size:var(--fs-sm)}
+.inv-block__head .fine{flex:1;min-width:12ch;margin:0}
+.inv-block__btns{display:flex;gap:var(--s-1);margin-left:auto}
+.inv-block__btns button:disabled{opacity:.4;cursor:not-allowed}
+.inv-block__text{width:100%;margin-top:var(--s-2);min-height:var(--tap);padding:var(--s-2) var(--s-3);border:1px solid var(--line-strong);border-radius:var(--r-sm);background:var(--surface);color:var(--ink);font:inherit}
+.inv-side{position:sticky;top:var(--s-4)}
+.inv-side h2{font:400 var(--fs-xl)/var(--lh-tight) var(--font-serif);margin-bottom:var(--s-3)}
+.inv-side>.fine{margin-top:var(--s-3)}
+/* Preview: khung điện thoại thu nhỏ; biến màu set inline theo config. */
+.inv-preview{max-width:420px;margin:0 auto;border:var(--bw) solid var(--line-strong);border-radius:var(--r-lg);overflow:auto;max-height:80vh;background:var(--paper,#F6F0E4)}
+.inv-preview .invitation{width:100%;margin:0;box-shadow:none;border:0}
+@media(max-width:900px){
+  .inv-layout{grid-template-columns:1fr}
+  .inv-side{position:static}
+  .inv-config .inv-grid{grid-template-columns:1fr}
+}
