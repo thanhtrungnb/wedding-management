@@ -1,0 +1,155 @@
+src/features/guests/guestView.js
+  s_4c19729fbaad65::t_8a5cda89ab809a 79,81-84,86-88
+  s_4c19729fbaad65::t_99b32be384b96c 97,103
+  s_e3c2764495942a::t_4b56182145c436 55
+  s_4c19729fbaad65::t_8b9d930c3d0b59 2,8,10-11,49,60,92,124
+  s_4c19729fbaad65::t_84c7066aaffb69 130-135
+  s_e3c2764495942a::t_42c9cac94112ed 15
+  s_4c19729fbaad65::t_dc7ddfd24d9625 120-121,125-126
+  s_e3c2764495942a::t_ef50457e3f512b 1,7,16,29-30,33-35,37-40,42-46,50-54,56-59,61-65,71-76,78,80,85,91,93-96,98-102,104,128
+  s_4c19729fbaad65::t_6a8a075b5eedc5 12
+  s_4c19729fbaad65::t_f7c330de2c2136 112
+  s_4c19729fbaad65::t_f99d4bc140dbb5 3-6,9,13-14,17-18,20-28,31-32,36,47-48,66-70,77,89-90,105-111,113-119,127,129,137-139
+  s_e3c2764495942a::t_dc7a7f941e253d 19
+  s_e3c2764495942a::t_a8499713d8e9b4 41
+  s_4c19729fbaad65::t_c2f7e918819f17 136
+  s_4c19729fbaad65::t_2b5252ef0aa8b0 122-123
+src/ui/icons.js
+  s_e3c2764495942a::t_1203d642c0417c 17
+  s_4c19729fbaad65::t_624de0a6f33a72 11
+src/storage/remoteStore.js
+  s_4c19729fbaad65::t_367a2a80e45f14 1-3,5-6,10,12-15,17,19,21,23,25
+src/storage/guestFiles.js
+  s_e3c2764495942a::t_2072a9773b7fe0 44,46
+  s_e3c2764495942a::t_07090d1e853489 8
+  s_4c19729fbaad65::t_030c46525ba5d1 11-12
+  s_4c19729fbaad65::t_e76a852d1ca3dc 7,9-10,13-33,42-43,45,48-50,52-67,71-74
+  s_4c19729fbaad65::t_4a5c788eba0bd9 41
+  s_4c19729fbaad65::t_f9d34f9355804f 51
+  s_4c19729fbaad65::t_a14f99355feb21 34-40,47
+  s_e3c2764495942a::t_814ab1131852c8 68-70
+  s_e3c2764495942a::t_c8085520608faf 1
+  s_4c19729fbaad65::t_6c619ccc1e6625 2-5
+  s_4c19729fbaad65::t_9d65f69224dfce 6
+README.md
+  s_4c19729fbaad65::t_7e2c8fc1e9fcb6 25
+  s_4c19729fbaad65::t_ddc058bcedbb5e 3,30
+  s_4c19729fbaad65::t_58db69564e7560 5,7,9-11,13,15,17,19-21,23,26-28,32
+google-apps-script/Code.gs
+  s_4c19729fbaad65::t_feb5cd8f36eebb 21
+  s_4c19729fbaad65::t_f38fa6e8a7a25f 91,93
+  s_4c19729fbaad65::t_0b82d8c8787a1d 10
+  s_4c19729fbaad65::t_1bd6ba501ed54c 23-24
+  s_e3c2764495942a::t_82505dafbd6da0 43,51-52
+  s_e3c2764495942a::t_2dbe1c21507c01 83
+  s_e3c2764495942a::t_71ad5422bb57ea 116,119-120
+  s_4c19729fbaad65::t_6c3f0bd1cd8300 3-6,12,14-19,30-31,33,35,37-39,57-66,68,72-73,82,85,99-105,113,115
+  s_4c19729fbaad65::t_3d3caae5b2f8c5 40-42,45-50,53-56,74-76,80-81,84,86
+  s_4c19729fbaad65::t_4af9abd34b28af 107,114,117
+  s_4c19729fbaad65::t_4c124e0474defd 88-90,92,94-98,106,118,121-123
+  s_4c19729fbaad65::t_d6d1767d56aa69 108,110-111
+  s_4c19729fbaad65::t_b41e7ced95897d 109,112
+  s_4c19729fbaad65::t_8f852bd47e0f1a 77-79
+  s_4c19729fbaad65::t_e47480a776061e 87
+assets/css/app.css
+  s_4c19729fbaad65::t_2e7ab469e47359 128
+src/features/settings/settingsView.js
+  s_4c19729fbaad65::t_cc20121ee8a71c 7-10
+  s_4c19729fbaad65::t_d295c270fa71e4 117-149
+  s_4c19729fbaad65::t_45319273b87cc6 79
+  s_4c19729fbaad65::t_bf702e0c16517a 81-85
+  s_4c19729fbaad65::t_ac6d87fe076274 152
+  s_4c19729fbaad65::t_2beb2074cb9cc6 32,34
+assets/css/invitation.css
+  s_4c19729fbaad65::t_2c7926cbf3db1b 1-34
+index.html
+  s_4c19729fbaad65::t_d6a12db466ffed 19
+  s_4c19729fbaad65::t_33d429dc742e1c 20
+src/models/invitation.js
+  s_4c19729fbaad65::t_91e395a4f1abae 1-34
+src/repositories/appRepository.js
+  s_4c19729fbaad65::t_512902142d4a3b 60
+  s_4c19729fbaad65::t_99149d7fa91688 3
+  s_4c19729fbaad65::t_e5eeb7ea3bb7ef 61
+src/storage/cloudConfig.js
+  s_4c19729fbaad65::t_e7a56213f43ff7 1-29
+src/features/publicInvitation.js
+  s_4c19729fbaad65::t_c986ad305f964e 4
+  s_4c19729fbaad65::t_ea1bbd9c8aab96 5,7,18-19,26,39
+  s_4c19729fbaad65::t_6f2ad44381bf02 1-3,6,8-17,20-25,27-38
+src/core/app.js
+  s_4c19729fbaad65::t_318b4bb0a325f1 4,8,10-16
+  s_4c19729fbaad65::t_75e9afbf40d578 5,7,9
+src/storage/guestCsvDatabase.js
+  s_4c19729fbaad65::t_8fa7525299c48c 34,38
+  s_4c19729fbaad65::t_765c56c8b5e527 40,42-51
+  s_4c19729fbaad65::t_3770c5d3ce010c 5-9
+  s_e3c2764495942a::t_3312bb242d8b80 4
+  s_4c19729fbaad65::t_d928aeabcaf859 13
+  s_4c19729fbaad65::t_86c4740ac16973 37
+  s_4c19729fbaad65::t_24afcf05f42fc7 31
+  s_4c19729fbaad65::t_9df57b4e7548ec 3
+  s_4c19729fbaad65::t_e11ad4315296f4 1-2,10-12,14-15,17-30,32-33,35-36,39,41,52-53
+  s_e3c2764495942a::t_ab7818fd734ee3 16
+src/storage/guestBackend.js
+  s_4c19729fbaad65::t_ba9f2cd7dd14f6 9,11
+  s_4c19729fbaad65::t_4be2a975a6463e 6,8,14,16-17,21-22,24,29-30,34-38
+  s_4c19729fbaad65::t_70dbd789b1d226 31,33
+  s_4c19729fbaad65::t_944e3a721dfae1 1-3,7,10,12-13,15,23,25,32
+  s_4c19729fbaad65::t_977238b82f2364 4-5
+  s_4c19729fbaad65::t_7e73dd5ada95f2 18-20,26-28
+src/models/schema.js
+  s_4c19729fbaad65::t_fdf004ca1396d6 80-81
+  s_4c19729fbaad65::t_d81ad89b027864 65-69,71-73,75-79,82-83
+  s_4c19729fbaad65::t_c9b34e0c723578 70
+  s_e3c2764495942a::t_686c99392e32d4 74
+  s_4c19729fbaad65::t_533c1bb1296ef1 4
+src/core/nav.js
+  s_4c19729fbaad65::t_70889a5314e8d1 9-10
+assets/css/guests.css
+  s_e3c2764495942a::t_82a9e84993f4af 2-3,5-7,10-15,18-19,27-29,32,34,41-42
+  s_4c19729fbaad65::t_f6092b8c24ffc7 8
+  s_4c19729fbaad65::t_17824be14f1541 1,4,9,16-17,20-26,30-31,33,35-40,43-44
+src/core/router.js
+  s_4c19729fbaad65::t_c72f479c43d112 8
+  s_4c19729fbaad65::t_ad57ec5bc4ad75 9
+src/features/invitations/renderBlocks.js
+  s_4c19729fbaad65::t_8fe053d2d4367d 1-3,5-58,65-83
+  s_e3c2764495942a::t_56e7c978f78745 59-64
+  s_e3c2764495942a::t_7c5cc2ba050fd4 4
+src/services/guestService.js
+  s_e3c2764495942a::t_e2361379cab3a1 14,17-19
+  s_e3c2764495942a::t_e9221926521841 39
+  s_e3c2764495942a::t_dc6b350bb1091d 50-51
+  s_4c19729fbaad65::t_74b265eef20d13 47
+  s_4c19729fbaad65::t_f2c4599ceda6b1 4-7
+  s_4c19729fbaad65::t_81b0f6f01b44f3 49,52-59
+  s_4c19729fbaad65::t_f64d29473f1677 1-3,8-13,15-16,20-31,33-34,36-38,40-46,48
+  s_4c19729fbaad65::t_f0a9ddd8a48627 32,35
+src/features/invitations/invitationView.js
+  s_4c19729fbaad65::t_1d40fce5abfd10 1-91
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.23",
+  "base_commit_sha": "3a04a888766cfe977bee0708d85fa7ae740a87cc",
+  "prompts": {},
+  "sessions": {
+    "s_4c19729fbaad65": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "497ef5c5-a14f-4f61-9fa0-6a3f3672d755",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "nttrungmisa <nttrung.misa@gmail.com>"
+    },
+    "s_e3c2764495942a": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "095465db-87b6-48a5-bcbc-d59c722e1eb3",
+        "model": "claude-sonnet-5"
+      },
+      "human_author": "nttrungmisa <nttrung.misa@gmail.com>"
+    }
+  }
+}
