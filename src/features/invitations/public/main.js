@@ -135,10 +135,29 @@ function render(config) {
         </div>
       </section>`;
 
+  /* Lời thư hiện sau khi mở bìa — mỗi dòng có tốc độ chạy chữ riêng (ms/ký tự). */
+  const ltLines = [
+    { cls: 'kicker', cm: 75, segs: [['Wedding Invitation']] },
+    { cls: 'script', cm: 95, segs: [['Dear '], [guest.name, 'gold'], [',']] },
+    { cls: 'body', cm: 75, segs: [['Trân trọng kính mời bạn đến chung vui']] },
+    { cls: 'body', cm: 75, segs: [['trong ngày trọng đại của']] },
+    { cls: 'names', cm: 75, segs: [[`${couple.bride} & ${couple.groom}`, 'gold']] },
+    { cls: 'date', cm: 75, segs: [[config.dateWeekday]] },
+    { cls: 'sign', cm: 95, segs: [[`${couple.bride} & ${couple.groom}`]] },
+  ];
+  /* Ghost span giữ đúng khối dòng khi chữ chưa chạy xong — tránh card nhảy layout. */
+  const ltLine = l => {
+    const seg = ([t, c]) => c ? `<span class="tp-lt-${c}">${esc(t)}</span>` : esc(t);
+    return `<p class="tp-lt-line tp-lt-line--${l.cls}" data-cm="${l.cm}">` +
+      `<span class="tp-lt-gh" aria-hidden="true">${l.segs.map(seg).join('')}</span><span class="tp-lt-live"></span></p>`;
+  };
+  const ltSr = ltLines.map(l => l.segs.map(s => s[0]).join('')).join(' ');
+
   return `
   <div class="tp-open" id="tp-open">
-    <div class="tp-env" role="button" tabindex="0" aria-label="Mở thiệp">
-      <div class="tp-env__body">
+    <div class="tp-env" role="button" tabindex="0" aria-label="Mở thiệp mời">
+      <p class="tp-env__corner" aria-hidden="true">Dear&nbsp;<strong>${esc(guest.name)}</strong>,<svg class="tp-env__corner-line" viewBox="0 0 200 12" fill="none"><path d="M4 8c34-6 72-7 96-3s52 2 96-6" pathLength="220" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></p>
+      <div class="tp-env__body" id="tp-env-body">
         <div class="tp-env__letter">
           <p class="tp-env__brand">Wedding Invitation</p>
           <p class="tp-env__to">${esc(guest.salutation)}<strong>${esc(guest.name)}</strong></p>
@@ -147,7 +166,20 @@ function render(config) {
         <div class="tp-env__front"></div>
         <div class="tp-env__flap"><div class="tp-env__flap-inner"></div><span class="tp-seal">${esc(couple.monogram)}</span></div>
       </div>
-      <p class="tp-open__hint">Nhấn để mở thiệp${config.music ? ' — có nhạc nền' : ''}</p>
+      <p class="tp-open__hint">Nhấn vào triện sáp để mở thiệp</p>
+    </div>
+
+    <div class="tp-letter" id="tp-letter">
+      <article class="tp-letter__card">
+        <p class="tp-lt-wm" aria-hidden="true">${esc(couple.monogram)}</p>
+        <p class="sr-only">${esc(ltSr)}</p>
+        ${ltLines.map(ltLine).slice(0, 1).join('')}
+        ${orn}
+        ${ltLines.map(ltLine).slice(1).join('')}
+        <div class="tp-lt-orn--end">${orn}</div>
+        <p class="tp-lt-dots"><span></span><span></span><span></span></p>
+      </article>
+      <button class="tp-lt-skip" id="tp-lt-skip" type="button">Bỏ qua ${chevR}</button>
     </div>
   </div>
 
@@ -400,13 +432,87 @@ function init() {
     wheelAt = Date.now(); step(d > 0 ? 1 : -1);
   }, { passive: true });
 
-  /* Mở thiệp: nắp phong bì mở, thiệp trượt lên, bật nhạc. */
+  /* Mở thiệp: triện vỡ → nắp lật → thư trồi lên đè vỏ bì → chạy chữ → 3 chấm nhấp nháy 3s → vào slide. */
+  const letter = document.getElementById('tp-letter');
+  const envBody = document.getElementById('tp-env-body');
+  const skipBtn = document.getElementById('tp-lt-skip');
+  const ltLineEls = [...letter.querySelectorAll('.tp-lt-line')];
+  const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let skipped = false, opened = false;
+  const skipResolvers = [];
+  /* wait() có thể bị ngắt giữa chừng khi người xem bấm Bỏ qua. */
+  const wait = ms => new Promise(res => {
+    if (skipped) return res();
+    const wake = () => { clearTimeout(t); res(); };
+    const t = setTimeout(wake, ms);
+    skipResolvers.push(wake);
+  });
+  const skipNow = () => {
+    if (skipped) return;
+    skipped = true;
+    skipResolvers.splice(0).forEach(w => w());
+  };
+  async function typeLine(p) {
+    const live = p.querySelector('.tp-lt-live');
+    const gh = p.querySelector('.tp-lt-gh');
+    const cm = Number(p.dataset.cm) || 55;
+    if (skipped) { live.innerHTML = gh.innerHTML; return; }
+    live.innerHTML = '';
+    const caret = document.createElement('span');
+    caret.className = 'tp-lt-caret';
+    live.appendChild(caret);
+    for (const node of gh.childNodes) {
+      const span = document.createElement('span');
+      if (node.nodeType === 1) span.className = node.className;
+      live.insertBefore(span, caret);
+      for (const ch of node.textContent) {
+        if (skipped) break;
+        span.textContent += ch;
+        await wait(cm);
+      }
+      if (skipped) break;
+    }
+    caret.remove();
+    if (skipped) live.innerHTML = gh.innerHTML;
+  }
+  const fillAll = () => ltLineEls.forEach(p => {
+    p.querySelector('.tp-lt-live').innerHTML = p.querySelector('.tp-lt-gh').innerHTML;
+  });
   function openInvite() {
-    if (open.classList.contains('is-open')) return;
+    if (opened) return;
+    opened = true;
     open.classList.add('is-open');
     music.start(); syncMusicBtn();
-    setTimeout(() => { open.classList.add('is-off'); go(0, true); }, 1700);
-    setTimeout(() => open.remove(), 2600);
+    const exit = () => {
+      if (open.classList.contains('is-out')) return;
+      open.classList.add('is-out');
+      setTimeout(() => { open.classList.add('is-off'); go(0, true); }, 850);
+      setTimeout(() => open.remove(), 1900);
+    };
+    if (reducedMotion) {
+      letter.classList.add('is-in');
+      envBody.classList.add('is-back');
+      fillAll();
+      letter.querySelector('.tp-lt-orn--end').classList.add('is-in');
+      setTimeout(exit, 1700);
+      return;
+    }
+    skipBtn.addEventListener('click', e => { e.stopPropagation(); skipNow(); });
+    letter.addEventListener('click', skipNow);
+    (async () => {
+      await wait(1300);
+      letter.classList.add('is-in');
+      await wait(1100);
+      envBody.classList.add('is-back');
+      letter.classList.add('is-typing');
+      await wait(400);
+      for (const p of ltLineEls) { await typeLine(p); await wait(520); }
+      letter.classList.remove('is-typing');
+      letter.querySelector('.tp-lt-orn--end').classList.add('is-in');
+      letter.classList.add('is-dots');
+      await wait(3000);
+      exit();
+    })();
   }
   open.addEventListener('click', openInvite);
   open.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') openInvite(); });
